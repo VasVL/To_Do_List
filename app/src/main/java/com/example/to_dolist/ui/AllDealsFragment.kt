@@ -1,4 +1,4 @@
-package com.example.to_dolist
+package com.example.to_dolist.ui
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
