@@ -7,8 +7,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.LayoutManager
 import com.example.to_dolist.databinding.FragmentAllDealsBinding
+import com.example.to_dolist.util.OffsetItemDecoration
 
 class AllDealsFragment : Fragment() {
 
@@ -30,7 +34,10 @@ class AllDealsFragment : Fragment() {
         viewModel.deals.observe(viewLifecycleOwner) { deals ->
             adapter.deals = deals
         }
+        val layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         binding.recyclerView.adapter = adapter
+        binding.recyclerView.layoutManager = layoutManager
+        binding.recyclerView.addItemDecoration(DividerItemDecoration(requireContext(), layoutManager.orientation))
         binding.recyclerView.setOnScrollChangeListener { _, _, _, y1, y2 ->
             if (y1 > y2) binding.addButton.hide()
             else binding.addButton.show()
@@ -42,8 +49,8 @@ class AllDealsFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        _binding = null
         _adapter = null
+        _binding = null
     }
 
     private fun createAdapter(): AllDealsAdapter {
