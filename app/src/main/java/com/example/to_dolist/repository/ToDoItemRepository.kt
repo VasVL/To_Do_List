@@ -46,9 +46,13 @@ class ToDoItemRepository {
         return true
     }
 
-    fun onChangeToDoList(callback: OnChangeToDoListCallback) {
+    fun registerOnChangeToDoList(callback: OnChangeToDoListCallback) {
         callbacks.add(callback)
         callback.invoke()
+    }
+
+    fun unregisterOnChangeToDoList(callback: OnChangeToDoListCallback) {
+        callbacks.remove(callback)
     }
 
     private fun notifyToDoListChanged() {
