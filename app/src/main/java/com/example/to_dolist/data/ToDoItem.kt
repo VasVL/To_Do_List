@@ -5,7 +5,14 @@ import java.util.Date
 data class ToDoItem(
     val id: Long,
     var deal: String,
+    val importance: DealImportance,
     var isDone: Boolean,
-    val creationDate: Date,
-    var changeDate: Date?
-)
+    val deadline: Date,
+    var changeDate: Date?,
+) {
+    enum class DealImportance {
+        LOW,
+        AVERAGE,
+        HIGH,
+    }
+}
