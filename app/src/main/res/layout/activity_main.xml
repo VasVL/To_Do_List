@@ -10,6 +10,6 @@
         android:id="@+id/fragment_container_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:name="com.example.to_dolist.ui.AllDealsFragment" />
+        android:name="com.example.to_dolist.ui.allDealsScreen.AllDealsFragment" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
