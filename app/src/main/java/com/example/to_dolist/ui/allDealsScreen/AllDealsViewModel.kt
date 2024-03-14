@@ -22,10 +22,18 @@ class AllDealsViewModel(
     val deals: LiveData<List<ToDoItem>> get() = _deals
 
     private val repositoryCallback = {
-        _deals.value = toDoItemRepository.deals
+        _deals.value = toDoItemRepository.deals.filter { !it.isDone }
     }
     init {
         toDoItemRepository.registerOnChangeToDoList(repositoryCallback)
+    }
+
+    fun onDone(toDoItem: ToDoItem) {
+        toDoItemRepository.changeDeal(toDoItem.copy(isDone = !toDoItem.isDone))
+    }
+
+    fun onChoose(toDoItem: ToDoItem) {
+
     }
 
     override fun onCleared() {

@@ -10,7 +10,7 @@ class ToDoItemRepository {
         ToDoItem(1, "q", ToDoItem.DealImportance.HIGH, false, GregorianCalendar(2022, 3, 1).time, null),
         ToDoItem(2, "qw", ToDoItem.DealImportance.LOW, false, GregorianCalendar(2022, 3, 1).time, null),
         ToDoItem(3, "qwe", ToDoItem.DealImportance.AVERAGE, false, GregorianCalendar(2022, 3, 1).time, null),
-        ToDoItem(4, "qwerqwertyuiqwertyuiqwertyuiqwertyuiqwertyuiqwertyuiqwertyuiqwertyuiqwertyuiqwertyuiqwertyui", ToDoItem.DealImportance.HIGH, false, GregorianCalendar(2022, 3, 1).time, null),
+        ToDoItem(4, "qwerqwertyuiq wertyuiqwertyuiqwe rtyuiqwertyuiqw ertyuiqwertyuiqw ertyuiqwertyuiq wertyuiqwertyui", ToDoItem.DealImportance.HIGH, false, GregorianCalendar(2022, 3, 1).time, null),
         ToDoItem(5, "qwert", ToDoItem.DealImportance.HIGH, false, GregorianCalendar(2022, 3, 1).time, null),
         ToDoItem(6, "qwerty", ToDoItem.DealImportance.HIGH, false, GregorianCalendar(2022, 3, 1).time, null),
         ToDoItem(7, "qwertyu", ToDoItem.DealImportance.HIGH, false, GregorianCalendar(2022, 3, 1).time, null),
@@ -28,7 +28,7 @@ class ToDoItemRepository {
         ToDoItem(19, "qwertyui", ToDoItem.DealImportance.HIGH, false, GregorianCalendar(2022, 3, 1).time, null),
         ToDoItem(20, "qwertyuiqwertyui", ToDoItem.DealImportance.HIGH, false, GregorianCalendar(2022, 3, 1).time, null),
     )
-    val deals: List<ToDoItem> get() = _deals
+    val deals: List<ToDoItem> get() = _deals.toList()
 
     private val callbacks = mutableListOf<OnChangeToDoListCallback>()
 

@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.LayoutManager
+import com.example.to_dolist.data.ToDoItem
 import com.example.to_dolist.databinding.FragmentAllDealsBinding
 import com.example.to_dolist.util.OffsetItemDecoration
 
@@ -32,7 +33,7 @@ class AllDealsFragment : Fragment() {
 
         _adapter = createAdapter()
         viewModel.deals.observe(viewLifecycleOwner) { deals ->
-            adapter.deals = deals
+            adapter.submitList(deals)
         }
         val layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         binding.recyclerView.adapter = adapter
@@ -54,6 +55,15 @@ class AllDealsFragment : Fragment() {
     }
 
     private fun createAdapter(): AllDealsAdapter {
-        return AllDealsAdapter()
+        return AllDealsAdapter(object : ToDoListClickListener {
+            override fun onDone(toDoItem: ToDoItem) {
+                viewModel.onDone(toDoItem)
+            }
+
+            override fun onChoose(toDoItem: ToDoItem) {
+                viewModel.onChoose(toDoItem)
+            }
+
+        })
     }
 }
