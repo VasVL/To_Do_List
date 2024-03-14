@@ -32,7 +32,7 @@
         app:layout_constraintEnd_toStartOf="@+id/info"
         app:layout_constraintStart_toEndOf="@+id/isDone"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="Купить что-то где-то зачем-то, но зачем не очень понятно, но точно, чтобы показать как обрезается длинный текст" />
+        tools:text="@string/bigTextSample" />
 
     <TextView
         android:id="@+id/deadline"
@@ -43,7 +43,7 @@
         app:layout_constraintStart_toStartOf="@+id/text"
         app:layout_constraintTop_toBottomOf="@id/text"
         app:layout_constraintBottom_toBottomOf="parent"
-        tools:text="дата" />
+        tools:text="@string/dateSample" />
 
     <ImageView
         android:id="@+id/info"
