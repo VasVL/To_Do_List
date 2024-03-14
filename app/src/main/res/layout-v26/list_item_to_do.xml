@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingStart="4dp"
-    android:paddingEnd="12dp">
+    android:paddingStart="@dimen/toDoItemPaddingStart"
+    android:paddingEnd="@dimen/toDoItemPaddingEnd">
 
     <CheckBox
         android:id="@+id/isDone"
@@ -26,7 +26,7 @@
         android:maxLines="3"
         android:textAlignment="viewStart"
         android:textColor="@color/black"
-        android:textSize="20sp"
+        android:textSize="@dimen/toDoItemTextSize"
         android:justificationMode="inter_word"
         app:layout_constraintBottom_toTopOf="@id/deadline"
         app:layout_constraintEnd_toStartOf="@+id/info"
@@ -38,8 +38,8 @@
         android:id="@+id/deadline"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:textSize="16sp"
-        android:layout_marginBottom="8dp"
+        android:textSize="@dimen/toDoItemDeadlineTextSize"
+        android:layout_marginBottom="@dimen/toDoItemDeadlineMarginBottom"
         app:layout_constraintStart_toStartOf="@+id/text"
         app:layout_constraintTop_toBottomOf="@id/text"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -52,7 +52,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/text"
         app:layout_constraintTop_toTopOf="@id/text"
-        android:paddingHorizontal="8dp"
+        android:paddingHorizontal="@dimen/toDoItemInfoPaddingHorizontal"
         app:srcCompat="@drawable/baseline_info_outline_24" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="toDoItemPaddingStart">4dp</dimen>
+    <dimen name="toDoItemPaddingEnd">12dp</dimen>
+    <dimen name="toDoItemTextSize">20sp</dimen>
+    <dimen name="toDoItemDeadlineTextSize">16sp</dimen>
+    <dimen name="toDoItemInfoPaddingHorizontal">8dp</dimen>
+    <dimen name="toDoItemDeadlineMarginBottom">8dp</dimen>
+</resources>
