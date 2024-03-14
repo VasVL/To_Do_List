@@ -1,6 +1,5 @@
 package com.example.to_dolist.ui.allDealsScreen
 
-import android.icu.util.Calendar
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
