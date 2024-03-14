@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.RecyclerView
 import com.example.to_dolist.databinding.FragmentAllDealsBinding
 
 class AllDealsFragment : Fragment() {
@@ -18,7 +19,6 @@ class AllDealsFragment : Fragment() {
     private val adapter get() = _adapter!!
 
     private val viewModel: AllDealsViewModel by viewModels { AllDealsViewModel.Factory }
-    
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -31,6 +31,11 @@ class AllDealsFragment : Fragment() {
             adapter.deals = deals
         }
         binding.recyclerView.adapter = adapter
+        binding.recyclerView.setOnScrollChangeListener { _, _, _, y1, y2 ->
+            if (y1 > y2) binding.addButton.hide()
+            else binding.addButton.show()
+        }
+
 
         return binding.root
     }
