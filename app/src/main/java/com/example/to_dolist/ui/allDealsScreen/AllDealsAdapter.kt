@@ -1,5 +1,6 @@
 package com.example.to_dolist.ui.allDealsScreen
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,9 +19,13 @@ interface ToDoListClickListener {
 }
 
 class AllDealsAdapter(
+    context: Context,
     private val clickListener: ToDoListClickListener
 ) : ListAdapter<ToDoItem, AllDealsAdapter.DealViewHolder>(ToDoItemCallback()),
     View.OnClickListener {
+
+    // TODO: мб переделать как-то
+    private val color = context.resources.getColor(com.google.android.material.R.color.m3_default_color_secondary_text)
 
     override fun onClick(view: View) {
         val tag = view.tag as ToDoItem
@@ -40,17 +45,24 @@ class AllDealsAdapter(
     }
 
     override fun onBindViewHolder(holder: DealViewHolder, position: Int) {
-        holder.onBind(getItem(position))
+        holder.onBind(getItem(position), color)
     }
 
     class DealViewHolder(private val binding: ListItemToDoBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun onBind(item: ToDoItem) {
+        fun onBind(item: ToDoItem, color: Int) {
             this.itemView.tag = item
             with(binding) {
                 isDone.tag = item
                 isDone.isChecked = item.isDone
-                deal.text = item.getDealWithImportance()
-                deadline.text = item.deadline.format()
+                if (item.isDone) {
+                    // TODO: Здесь кстати датабиндинг бог бы помочь
+                    //  В любом случае лучше переделать на два разных Item'а
+                    deal.setTextColor(color)
+                    deal.text = item.deal
+                } else {
+                    deal.text = item.getDealWithImportance()
+                }
+                deadline.text = item.deadline?.format() ?: ""
             }
         }
     }
@@ -63,6 +75,10 @@ class AllDealsAdapter(
         override fun areContentsTheSame(oldItem: ToDoItem, newItem: ToDoItem): Boolean {
             return oldItem == newItem
         }
+
+    }
+
+    enum class ItemType {
 
     }
 }

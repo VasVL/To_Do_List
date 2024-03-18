@@ -8,7 +8,7 @@ data class ToDoItem(
     var deal: String,
     var importance: DealImportance,
     var isDone: Boolean,
-    var deadline: Date,
+    var deadline: Date?,
     var changeDate: Date?,
 ) {
 

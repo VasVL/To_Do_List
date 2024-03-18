@@ -22,8 +22,14 @@ class AllDealsViewModel(
     val deals: LiveData<List<ToDoItem>> get() = _deals
 
     private val repositoryCallback = {
-        _deals.value = toDoItemRepository.deals.filter { !it.isDone }
+        _deals.value = if (isDoneShowed) toDoItemRepository.deals
+        else toDoItemRepository.deals.filter { !it.isDone }
     }
+
+    // TODO: Можно вынести в настройки
+    //  Заменить на savedStateHandle
+    private var isDoneShowed = false
+
     init {
         toDoItemRepository.registerOnChangeToDoList(repositoryCallback)
     }
@@ -34,6 +40,11 @@ class AllDealsViewModel(
 
     fun onChoose(toDoItem: ToDoItem) {
 
+    }
+
+    fun showOrHideDone() {
+        isDoneShowed = !isDoneShowed
+        repositoryCallback.invoke()
     }
 
     override fun onCleared() {

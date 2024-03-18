@@ -37,9 +37,11 @@ class AllDealsFragment : Fragment() {
         _binding = FragmentAllDealsBinding.inflate(inflater, container, false)
 
         _adapter = createAdapter()
+
         viewModel.deals.observe(viewLifecycleOwner) { deals ->
             adapter.submitList(deals)
         }
+
         val layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         binding.recyclerView.adapter = adapter
         binding.recyclerView.layoutManager = layoutManager
@@ -60,21 +62,29 @@ class AllDealsFragment : Fragment() {
     }
 
     private fun createAdapter(): AllDealsAdapter {
-        return AllDealsAdapter(object : ToDoListClickListener {
-            override fun onDone(toDoItem: ToDoItem) {
-                viewModel.onDone(toDoItem)
-            }
+        return AllDealsAdapter(
+            requireContext(),
+            object : ToDoListClickListener {
+                override fun onDone(toDoItem: ToDoItem) {
+                    viewModel.onDone(toDoItem)
+                }
 
-            override fun onChoose(toDoItem: ToDoItem) {
-                viewModel.onChoose(toDoItem)
-            }
+                override fun onChoose(toDoItem: ToDoItem) {
+                    viewModel.onChoose(toDoItem)
+                }
 
-        })
+            }
+        )
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
 
-
+        menu.findItem(R.id.viewAll).setOnMenuItemClickListener {
+            // TODO: Не робит шо-то
+            viewModel.showOrHideDone()
+            // if it returns true, no other callbacks will be executed
+            true
+        }
 
         super.onCreateOptionsMenu(menu, inflater)
     }

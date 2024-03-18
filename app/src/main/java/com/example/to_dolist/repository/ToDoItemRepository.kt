@@ -7,7 +7,7 @@ typealias OnChangeToDoListCallback = () -> Unit
 
 class ToDoItemRepository {
     private val _deals: MutableList<ToDoItem> = mutableListOf(
-        ToDoItem(1, "q", ToDoItem.DealImportance.HIGH, false, GregorianCalendar(2022, 3, 1).time, null),
+        ToDoItem(1, "q", ToDoItem.DealImportance.HIGH, false, null, null),
         ToDoItem(2, "qw", ToDoItem.DealImportance.LOW, false, GregorianCalendar(2022, 3, 1).time, null),
         ToDoItem(3, "qwe", ToDoItem.DealImportance.AVERAGE, false, GregorianCalendar(2022, 3, 1).time, null),
         ToDoItem(4, "qwerqwertyuiq wertyuiqwertyuiqwe rtyuiqwertyuiqw ertyuiqwertyuiqw ertyuiqwertyuiq wertyuiqwertyui", ToDoItem.DealImportance.HIGH, false, GregorianCalendar(2022, 3, 1).time, null),
