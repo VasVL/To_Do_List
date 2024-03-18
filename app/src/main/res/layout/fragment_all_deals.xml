@@ -4,7 +4,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_height="match_parent"
-    android:background="@color/material_dynamic_neutral90"
     android:layout_width="match_parent">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -12,30 +11,31 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:liftOnScrollTargetViewId="@id/recyclerView"
-        android:background="@color/material_dynamic_neutral90"
-        android:fitsSystemWindows="true">
+        android:fitsSystemWindows="true"
+        >
 
-        <com.google.android.material.appbar.CollapsingToolbarLayout
-            android:id="@+id/collapsingToolbar"
-            style="?attr/collapsingToolbarLayoutMediumStyle"
-            android:background="@color/material_dynamic_neutral90"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/collapsingToolbarLayoutMediumSize"
-            android:fitsSystemWindows="true"
-            app:layout_scrollFlags="scroll|snap|exitUntilCollapsed"
-            >
+<!--        <com.google.android.material.appbar.CollapsingToolbarLayout-->
+<!--            android:id="@+id/collapsingToolbar"-->
+<!--            style="?attr/collapsingToolbarLayoutMediumStyle"-->
+<!--            android:background="@color/material_dynamic_neutral90"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="?attr/collapsingToolbarLayoutMediumSize"-->
+<!--            android:fitsSystemWindows="true"-->
+<!--            app:layout_scrollFlags="scroll|snap|exitUntilCollapsed"-->
+
+<!--            >-->
 
             <com.google.android.material.appbar.MaterialToolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                android:background="@color/material_dynamic_neutral90"
                 android:elevation="0dp"
                 app:layout_collapseMode="pin"
                 app:title="Мои дела"
+                app:menu="@menu/menu_all_deals"
                 />
 
-        </com.google.android.material.appbar.CollapsingToolbarLayout>
+<!--        </com.google.android.material.appbar.CollapsingToolbarLayout>-->
 
     </com.google.android.material.appbar.AppBarLayout>
 

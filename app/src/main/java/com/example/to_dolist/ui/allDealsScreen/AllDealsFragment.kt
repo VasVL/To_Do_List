@@ -1,8 +1,11 @@
 package com.example.to_dolist.ui.allDealsScreen
 
 import android.os.Bundle
+import android.view.CollapsibleActionView
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
@@ -11,9 +14,11 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.LayoutManager
+import com.example.to_dolist.R
 import com.example.to_dolist.data.ToDoItem
 import com.example.to_dolist.databinding.FragmentAllDealsBinding
 import com.example.to_dolist.util.OffsetItemDecoration
+import com.google.android.material.appbar.CollapsingToolbarLayout
 
 class AllDealsFragment : Fragment() {
 
@@ -65,5 +70,12 @@ class AllDealsFragment : Fragment() {
             }
 
         })
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+
+
+
+        super.onCreateOptionsMenu(menu, inflater)
     }
 }

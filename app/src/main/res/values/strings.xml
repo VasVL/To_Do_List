@@ -5,4 +5,5 @@
     <string name="dateSample">29.01.1999</string>
     <string name="highPriority">"\u203C"</string>
     <string name="lowPriority">"\u2B07"</string>
+    <string name="viewAll">ViewAll</string>
 </resources>
