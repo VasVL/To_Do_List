@@ -1,6 +1,7 @@
 package com.example.to_dolist.ui.allDealsScreen
 
 import android.content.Context
+import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -25,7 +26,7 @@ class AllDealsAdapter(
     View.OnClickListener {
 
     // TODO: мб переделать как-то
-    private val color = context.resources.getColor(com.google.android.material.R.color.m3_default_color_secondary_text)
+    private val color = context.resources.getColor(R.color.gray)
 
     override fun onClick(view: View) {
         val tag = view.tag as ToDoItem
@@ -36,7 +37,7 @@ class AllDealsAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DealViewHolder {
-        val binding = ListItemToDoBinding.inflate(LayoutInflater.from(parent.context))
+        val binding = ListItemToDoBinding.inflate(LayoutInflater.from(parent.context), parent, false)
 
         binding.isDone.setOnClickListener(this)
         binding.root.setOnClickListener(this)
