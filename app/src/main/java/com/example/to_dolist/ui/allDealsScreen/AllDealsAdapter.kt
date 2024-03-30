@@ -1,7 +1,6 @@
 package com.example.to_dolist.ui.allDealsScreen
 
 import android.content.Context
-import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -76,10 +75,6 @@ class AllDealsAdapter(
         override fun areContentsTheSame(oldItem: ToDoItem, newItem: ToDoItem): Boolean {
             return oldItem == newItem
         }
-
-    }
-
-    enum class ItemType {
 
     }
 }

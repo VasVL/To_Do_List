@@ -42,21 +42,18 @@ class AllDealsFragment : Fragment() {
             adapter.submitList(deals)
         }
 
-        val layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-        binding.recyclerView.adapter = adapter
-        binding.recyclerView.layoutManager = layoutManager
-//        binding.recyclerView.addItemDecoration(DividerItemDecoration(requireContext(), layoutManager.orientation))
-        binding.recyclerView.addItemDecoration(
-            ItemDecoration(
-                requireContext().getDrawable(R.drawable.layout_recycle_item_top)!!,
-                requireContext().getDrawable(R.drawable.layout_recycle_item_bottom)!!
-            )
-        )
-        binding.recyclerView.setOnScrollChangeListener { _, _, _, y1, y2 ->
-            if (y1 > y2) binding.addButton.hide()
-            else binding.addButton.show()
-        }
+        val myLayoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
 
+        with(binding.recyclerView) {
+            adapter = adapter
+            layoutManager = myLayoutManager
+//            addItemDecoration(DividerItemDecoration(requireContext(), myLayoutManager.orientation))
+            addItemDecoration(ItemDecoration())
+            setOnScrollChangeListener { _, _, _, y1, y2 ->
+                if (y1 > y2) binding.addButton.hide()
+                else binding.addButton.show()
+            }
+        }
 
         return binding.root
     }
