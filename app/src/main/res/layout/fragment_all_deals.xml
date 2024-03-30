@@ -17,30 +17,16 @@
         android:background="@color/backPrimary"
         >
 
-        <com.google.android.material.appbar.CollapsingToolbarLayout
-            android:id="@+id/collapsingToolbar"
-            style="?attr/collapsingToolbarLayoutMediumStyle"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/collapsingToolbarLayoutLargeSize"
-            android:fitsSystemWindows="true"
-            app:layout_scrollFlags="scroll|snap|exitUntilCollapsed"
-            android:background="@color/backPrimary"
-            >
+<!--        <com.google.android.material.appbar.CollapsingToolbarLayout-->
+<!--            android:id="@+id/collapsingToolbar"-->
+<!--            style="?attr/collapsingToolbarLayoutMediumStyle"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="?attr/collapsingToolbarLayoutLargeSize"-->
+<!--            android:fitsSystemWindows="true"-->
+<!--            app:layout_scrollFlags="scroll|snap|exitUntilCollapsed"-->
+<!--            android:background="@color/backPrimary"-->
+<!--            >-->
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:layout_collapseMode="pin"
-                android:background="@color/backPrimary">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    android:text="sdsdsdsd"/>
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <com.google.android.material.appbar.MaterialToolbar
                 android:id="@+id/toolbar"
@@ -48,15 +34,20 @@
                 android:layout_height="?attr/actionBarSize"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                android:elevation="8dp"
+                android:elevation="4dp"
                 app:layout_collapseMode="pin"
                 app:title="Мои дела"
-                android:background="@color/backPrimary"
                 app:menu="@menu/menu_all_deals"
                 />
 
 
-        </com.google.android.material.appbar.CollapsingToolbarLayout>
+            <View android:id="@+id/toolbarShadow"
+                android:layout_width="match_parent"
+                android:layout_height="5dp"
+                android:background="@drawable/toolbar_dropshadow"/>
+
+
+<!--        </com.google.android.material.appbar.CollapsingToolbarLayout>-->
 
     </com.google.android.material.appbar.AppBarLayout>
 

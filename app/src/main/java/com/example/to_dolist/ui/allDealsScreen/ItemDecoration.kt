@@ -4,6 +4,7 @@ import android.graphics.Canvas
 import android.graphics.Rect
 import android.view.View
 import androidx.appcompat.content.res.AppCompatResources
+import androidx.core.util.TypedValueCompat
 import androidx.core.view.children
 import androidx.recyclerview.widget.RecyclerView
 import com.example.to_dolist.R
@@ -34,7 +35,7 @@ class ItemDecoration : RecyclerView.ItemDecoration() {
         val index = parent.getChildAdapterPosition(view)
         when (index) {
             last - 1 -> {
-                outRect.bottom = 400
+                outRect.bottom = TypedValueCompat.dpToPx(100f, view.resources.displayMetrics).toInt()
             }
         }
     }

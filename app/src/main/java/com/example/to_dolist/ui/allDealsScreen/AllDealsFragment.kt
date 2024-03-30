@@ -1,7 +1,7 @@
 package com.example.to_dolist.ui.allDealsScreen
 
 import android.os.Bundle
-import android.view.CollapsibleActionView
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.Menu
@@ -9,16 +9,10 @@ import android.view.MenuInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.RecyclerView.LayoutManager
 import com.example.to_dolist.R
 import com.example.to_dolist.data.ToDoItem
 import com.example.to_dolist.databinding.FragmentAllDealsBinding
-import com.example.to_dolist.util.OffsetItemDecoration
-import com.google.android.material.appbar.CollapsingToolbarLayout
 
 class AllDealsFragment : Fragment() {
 
@@ -44,14 +38,23 @@ class AllDealsFragment : Fragment() {
 
         val myLayoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
 
-        with(binding.recyclerView) {
-            adapter = adapter
-            layoutManager = myLayoutManager
-//            addItemDecoration(DividerItemDecoration(requireContext(), myLayoutManager.orientation))
-            addItemDecoration(ItemDecoration())
-            setOnScrollChangeListener { _, _, _, y1, y2 ->
-                if (y1 > y2) binding.addButton.hide()
-                else binding.addButton.show()
+        with(binding) {
+            recyclerView.adapter = adapter
+            recyclerView.layoutManager = myLayoutManager
+            recyclerView.addItemDecoration(ItemDecoration())
+            recyclerView.setOnScrollChangeListener { v, _, y1, _, y2 ->
+                val child = (recyclerView.layoutManager as LinearLayoutManager).getChildAt(0) ?: View(requireContext())
+                val index = recyclerView.getChildAdapterPosition(child)
+                if (y1 > y2) {
+                    binding.addButton.hide()
+                } else {
+                    binding.addButton.show()
+                }
+                if (index != 0) {
+                    toolbarShadow.visibility = View.VISIBLE
+                } else {
+                    toolbarShadow.visibility = View.INVISIBLE
+                }
             }
         }
 
