@@ -2,17 +2,18 @@ package com.example.to_dolist.ui.allDealsScreen
 
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.to_dolist.R
 import com.example.to_dolist.data.ToDoItem
 import com.example.to_dolist.databinding.FragmentAllDealsBinding
+import kotlin.math.abs
 
 class AllDealsFragment : Fragment() {
 
@@ -43,19 +44,21 @@ class AllDealsFragment : Fragment() {
             recyclerView.layoutManager = myLayoutManager
             recyclerView.addItemDecoration(ItemDecoration())
             recyclerView.setOnScrollChangeListener { v, _, y1, _, y2 ->
-                val child = (recyclerView.layoutManager as LinearLayoutManager).getChildAt(0) ?: View(requireContext())
-                val index = recyclerView.getChildAdapterPosition(child)
-//                collapsingToolbar.
                 if (y1 > y2) {
                     binding.addButton.hide()
                 } else {
                     binding.addButton.show()
                 }
-                if (index != 0) {
-//                    toolbar.visibility = View.VISIBLE
+            }
+
+            appBar.addOnOffsetChangedListener { appBarLayout, offset ->
+                val collapsingToolbar = collapsingToolbar.height
+                val toolbar = toolbar.height
+                val resourceId = resources.getIdentifier("status_bar_height", "dimen", "android")
+                val size = resources.getDimensionPixelSize(resourceId)
+                if (collapsingToolbar + offset == size + toolbar) {
                     toolbarShadow.visibility = View.VISIBLE
                 } else {
-//                    toolbar.visibility = View.INVISIBLE
                     toolbarShadow.visibility = View.INVISIBLE
                 }
             }
