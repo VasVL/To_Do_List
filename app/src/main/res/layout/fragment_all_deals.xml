@@ -13,7 +13,6 @@
         android:layout_height="wrap_content"
         app:liftOnScrollTargetViewId="@id/recyclerView"
         android:fitsSystemWindows="true"
-        app:elevation="16dp"
         android:background="@color/backPrimary"
         >
 
@@ -25,59 +24,75 @@
             android:fitsSystemWindows="true"
             app:layout_scrollFlags="scroll|snap|exitUntilCollapsed"
             android:background="@color/backPrimary"
+            app:titleCollapseMode="scale"
+            app:expandedTitleMarginStart="48dp"
+            app:expandedTitleMarginBottom="48dp"
+            app:expandedTitleTextAppearance="@style/ExpandedAppBar"
+            app:extraMultilineHeightEnabled="true"
             >
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/df"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:layout_collapseMode="pin">
+<!--            <androidx.constraintlayout.widget.ConstraintLayout-->
+<!--                android:id="@+id/titleLayout"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="match_parent"-->
+<!--                app:layout_collapseMode="pin">-->
 
-                <TextView
-                    android:id="@+id/textDone"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp"
-                    android:text="Выполнено - "
-                    android:textColor="@color/gray"
-                    android:textSize="20sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/sdsd"
-                    app:layout_constraintHorizontal_bias="0.24"
-                    app:layout_constraintStart_toStartOf="parent" />
+<!--                <TextView-->
+<!--                    android:id="@+id/textDone"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginBottom="16dp"-->
+<!--                    android:text="Выполнено - "-->
+<!--                    android:textColor="@color/gray"-->
+<!--                    android:textSize="20sp"-->
+<!--                    app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                    app:layout_constraintEnd_toStartOf="@+id/sdsd"-->
+<!--                    app:layout_constraintHorizontal_bias="0.24"-->
+<!--                    app:layout_constraintStart_toStartOf="parent" />-->
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Мои дела"
-                    android:textSize="40sp"
-                    android:textStyle="bold"
-                    android:textColor="@color/black"
-                    app:layout_constraintBottom_toTopOf="@id/textDone"
-                    app:layout_constraintStart_toStartOf="@id/textDone" />
+<!--                <TextView-->
+<!--                    android:id="@+id/title"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="Мои дела"-->
+<!--                    android:textSize="40sp"-->
+<!--                    android:textStyle="bold"-->
+<!--                    android:textColor="@color/black"-->
+<!--                    app:layout_constraintBottom_toTopOf="@id/textDone"-->
+<!--                    app:layout_constraintStart_toStartOf="@id/textDone" />-->
 
-                <ImageView
-                    android:id="@+id/sdsd"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    android:layout_marginEnd="12dp"
-                    android:layout_marginBottom="20dp"
-                    android:src="@drawable/baseline_visibility_24"/>
+<!--                <ImageView-->
+<!--                    android:id="@+id/sdsd"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                    app:layout_constraintEnd_toEndOf="parent"-->
+<!--                    android:layout_marginEnd="12dp"-->
+<!--                    android:layout_marginBottom="20dp"-->
+<!--                    android:src="@drawable/baseline_visibility_24"/>-->
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+<!--            </androidx.constraintlayout.widget.ConstraintLayout>-->
+
 
 
             <com.google.android.material.appbar.MaterialToolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                app:title=""
+                app:title="Мои дела"
                 app:layout_collapseMode="pin"
-                app:menu="@menu/menu_all_deals"
-                android:visibility="invisible"
+                android:visibility="visible"
                 />
+
+            <ImageView
+                android:id="@+id/sdsd"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|end"
+                app:layout_collapseMode="pin"
+                android:layout_marginEnd="12dp"
+                android:layout_marginBottom="20dp"
+                android:src="@drawable/baseline_visibility_24"/>
 
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>
@@ -98,6 +113,7 @@
     <!--    </com.google.android.material.card.MaterialCardView>-->
 
     <FrameLayout
+        android:id="@+id/shadowToolbarLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
@@ -124,7 +140,7 @@
         android:layout_height="wrap_content"
         android:backgroundTint="@color/blue"
         app:fabSize="normal"
-        app:layout_anchor="@id/recyclerView"
+        app:layout_anchor="@id/shadowToolbarLayout"
         app:layout_anchorGravity="bottom|end"
         android:layout_marginEnd="30dp"
         android:layout_marginBottom="30dp"

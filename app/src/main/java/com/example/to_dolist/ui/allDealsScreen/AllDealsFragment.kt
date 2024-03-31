@@ -45,14 +45,17 @@ class AllDealsFragment : Fragment() {
             recyclerView.setOnScrollChangeListener { v, _, y1, _, y2 ->
                 val child = (recyclerView.layoutManager as LinearLayoutManager).getChildAt(0) ?: View(requireContext())
                 val index = recyclerView.getChildAdapterPosition(child)
+//                collapsingToolbar.
                 if (y1 > y2) {
                     binding.addButton.hide()
                 } else {
                     binding.addButton.show()
                 }
                 if (index != 0) {
+//                    toolbar.visibility = View.VISIBLE
                     toolbarShadow.visibility = View.VISIBLE
                 } else {
+//                    toolbar.visibility = View.INVISIBLE
                     toolbarShadow.visibility = View.INVISIBLE
                 }
             }

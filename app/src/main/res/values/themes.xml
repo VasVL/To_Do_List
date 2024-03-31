@@ -13,4 +13,10 @@
         <item name="android:statusBarColor">@color/backPrimary</item>
         <!-- Customize your theme here. -->
     </style>
+
+    <style name="ExpandedAppBar" parent="@android:style/TextAppearance">
+        <item name="android:textSize">40sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
 </resources>
