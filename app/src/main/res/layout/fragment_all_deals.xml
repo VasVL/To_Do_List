@@ -27,29 +27,34 @@
             android:background="@color/backPrimary"
             >
 
-            <com.google.android.material.appbar.MaterialToolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                android:elevation="4dp"
-                app:layout_collapseMode="pin"
-                app:title="Мои дела"
-                app:menu="@menu/menu_all_deals"
-                />
-
-            <View android:id="@+id/toolbarShadow"
-                android:layout_width="match_parent"
-                android:layout_height="5dp"
-                android:layout_gravity="bottom"
-                android:background="@drawable/toolbar_dropshadow"/>
-
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/df"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:layout_collapseMode="pin">
+
+                <TextView
+                    android:id="@+id/textDone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:text="Выполнено - "
+                    android:textColor="@color/gray"
+                    android:textSize="20sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/sdsd"
+                    app:layout_constraintHorizontal_bias="0.24"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Мои дела"
+                    android:textSize="40sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
+                    app:layout_constraintBottom_toTopOf="@id/textDone"
+                    app:layout_constraintStart_toStartOf="@id/textDone" />
 
                 <ImageView
                     android:id="@+id/sdsd"
@@ -62,6 +67,17 @@
                     android:src="@drawable/baseline_visibility_24"/>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:title=""
+                app:layout_collapseMode="pin"
+                app:menu="@menu/menu_all_deals"
+                android:visibility="invisible"
+                />
 
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>
@@ -81,15 +97,26 @@
 
     <!--    </com.google.android.material.card.MaterialCardView>-->
 
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
-        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:elevation="4dp"
-        tools:itemCount="10"
-        tools:listitem="@layout/list_item_to_do" />
+        android:layout_height="match_parent"
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
+        >
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:itemCount="10"
+            tools:listitem="@layout/list_item_to_do" />
+
+        <View android:id="@+id/toolbarShadow"
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:layout_gravity="top"
+            android:background="@drawable/toolbar_dropshadow"/>
+
+    </FrameLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/addButton"
