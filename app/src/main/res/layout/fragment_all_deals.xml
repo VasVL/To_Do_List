@@ -99,7 +99,7 @@
                 />
 
             <ImageView
-                android:id="@+id/sdsd"
+                android:id="@+id/showAllDeals"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom|end"

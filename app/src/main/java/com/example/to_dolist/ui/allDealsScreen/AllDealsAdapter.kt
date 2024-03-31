@@ -1,6 +1,7 @@
 package com.example.to_dolist.ui.allDealsScreen
 
 import android.content.Context
+import android.graphics.Paint.STRIKE_THRU_TEXT_FLAG
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -25,7 +26,8 @@ class AllDealsAdapter(
     View.OnClickListener {
 
     // TODO: мб переделать как-то
-    private val color = context.resources.getColor(R.color.gray)
+    private val colorGray = context.resources.getColor(R.color.gray)
+    private val colorBlack = context.resources.getColor(R.color.black)
 
     override fun onClick(view: View) {
         val tag = view.tag as ToDoItem
@@ -45,11 +47,11 @@ class AllDealsAdapter(
     }
 
     override fun onBindViewHolder(holder: DealViewHolder, position: Int) {
-        holder.onBind(getItem(position), color)
+        holder.onBind(getItem(position), colorGray, colorBlack)
     }
 
     class DealViewHolder(private val binding: ListItemToDoBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun onBind(item: ToDoItem, color: Int) {
+        fun onBind(item: ToDoItem, colorGray: Int, colorBlack: Int) {
             this.itemView.tag = item
             with(binding) {
                 isDone.tag = item
@@ -57,10 +59,12 @@ class AllDealsAdapter(
                 if (item.isDone) {
                     // TODO: Здесь кстати датабиндинг бог бы помочь
                     //  В любом случае лучше переделать на два разных Item'а
-                    deal.setTextColor(color)
-                    deal.text = item.deal
+                    deal.setTextColor(colorGray)
+                    deal.text = "${item.deal}"
+                    deal.paintFlags = STRIKE_THRU_TEXT_FLAG
                 } else {
                     deal.text = item.getDealWithImportance()
+                    deal.setTextColor(colorBlack)
                 }
                 deadline.text = item.deadline?.format() ?: ""
             }

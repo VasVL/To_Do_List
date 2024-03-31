@@ -1,12 +1,7 @@
 package com.example.to_dolist.ui.allDealsScreen
 
-import android.content.Context
 import android.os.Bundle
-import android.util.AttributeSet
-import android.util.Log
 import android.view.LayoutInflater
-import android.view.Menu
-import android.view.MenuInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.ViewCompat
@@ -37,9 +32,28 @@ class AllDealsFragment : Fragment() {
 
         _adapter = createAdapter()
 
+
+
         viewModel.deals.observe(viewLifecycleOwner) { deals ->
             adapter.submitList(deals)
         }
+
+        viewModel.isDoneShowed.observe(viewLifecycleOwner) { isDoneShowed ->
+            if (isDoneShowed) {
+                binding.showAllDeals.setImageResource(R.drawable.baseline_visibility_off_24)
+            }
+            else {
+                binding.showAllDeals.setImageResource(R.drawable.baseline_visibility_24)
+            }
+        }
+
+        viewModel.doneCount.observe(viewLifecycleOwner) { count ->
+            count?.let{
+                binding.textDone.text = "Выполнено - $count"
+            }
+        }
+
+
 
         val myLayoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
 
@@ -72,9 +86,6 @@ class AllDealsFragment : Fragment() {
             ViewCompat.setOnApplyWindowInsetsListener(addButton) { v, windowInsets ->
                 val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
 
-                Log.d("123","insets $insets")
-                textDone.text = insets.toString()
-                Log.d("123","v $v")
                 v.updateLayoutParams<ViewGroup.MarginLayoutParams> {
                     bottomMargin = insets.bottom
                     leftMargin = insets.left
@@ -82,6 +93,10 @@ class AllDealsFragment : Fragment() {
                 }
 
                 WindowInsetsCompat.CONSUMED
+            }
+
+            showAllDeals.setOnClickListener {
+                viewModel.showOrHideDone()
             }
         }
 
@@ -108,17 +123,5 @@ class AllDealsFragment : Fragment() {
 
             }
         )
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-
-        menu.findItem(R.id.viewAll).setOnMenuItemClickListener {
-            // TODO: Не робит шо-то
-            viewModel.showOrHideDone()
-            // if it returns true, no other callbacks will be executed
-            true
-        }
-
-        super.onCreateOptionsMenu(menu, inflater)
     }
 }
