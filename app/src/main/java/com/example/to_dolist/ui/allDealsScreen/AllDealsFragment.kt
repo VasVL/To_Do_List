@@ -1,7 +1,6 @@
 package com.example.to_dolist.ui.allDealsScreen
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
@@ -13,7 +12,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.to_dolist.R
 import com.example.to_dolist.data.ToDoItem
 import com.example.to_dolist.databinding.FragmentAllDealsBinding
-import kotlin.math.abs
 
 class AllDealsFragment : Fragment() {
 

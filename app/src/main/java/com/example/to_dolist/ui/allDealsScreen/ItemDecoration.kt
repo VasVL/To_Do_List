@@ -34,7 +34,7 @@ class ItemDecoration : RecyclerView.ItemDecoration() {
         val last = parent.adapter?.itemCount ?: 0
         val index = parent.getChildAdapterPosition(view)
         when (index) {
-            0 -> outRect.top = TypedValueCompat.dpToPx(5f, view.resources.displayMetrics).toInt()
+            0 -> outRect.top = TypedValueCompat.dpToPx(2f, view.resources.displayMetrics).toInt()
             last - 1 -> {
                 outRect.bottom = TypedValueCompat.dpToPx(100f, view.resources.displayMetrics).toInt()
             }
