@@ -19,15 +19,15 @@ class AllDealsViewModel(
 ) : ViewModel() {
 
     private val _deals = MutableLiveData<List<ToDoItem>>()
+
     val deals: LiveData<List<ToDoItem>> get() = _deals
 
-    private val dealsChangeCallback = {
-        _deals.value = if (isDoneShowed.value!!) toDoItemRepository.deals
-        else toDoItemRepository.deals.filter { !it.isDone }
+    private val dealsChangeCallback: OnChangeToDoListCallback = { list ->
+        _deals.value = list
     }
 
-    private val dealsCountChangeCallback = {
-        doneCount.value = toDoItemRepository.deals.count { it.isDone }
+    private val dealsCountChangeCallback: OnChangeToDoListCallback = { list ->
+        doneCount.value = list.count { it.isDone }
     }
 
     private val callbacks = mutableListOf<OnChangeToDoListCallback>()
@@ -54,7 +54,7 @@ class AllDealsViewModel(
 
     fun showOrHideDone() {
         isDoneShowed.value = !isDoneShowed.value!!
-        dealsChangeCallback.invoke()
+        toDoItemRepository.filterDeals(isDoneShowed.value!!)
     }
 
     override fun onCleared() {
