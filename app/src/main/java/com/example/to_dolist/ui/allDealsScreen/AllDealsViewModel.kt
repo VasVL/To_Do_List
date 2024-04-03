@@ -5,12 +5,12 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
 import androidx.lifecycle.createSavedStateHandle
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.to_dolist.Repo
 import com.example.to_dolist.data.ToDoItem
+import com.example.to_dolist.repository.OnChangeToDoListCallback
 import com.example.to_dolist.repository.ToDoItemRepository
 
 class AllDealsViewModel(
@@ -21,18 +21,27 @@ class AllDealsViewModel(
     private val _deals = MutableLiveData<List<ToDoItem>>()
     val deals: LiveData<List<ToDoItem>> get() = _deals
 
-    private val repositoryCallback = {
+    private val dealsChangeCallback = {
         _deals.value = if (isDoneShowed.value!!) toDoItemRepository.deals
         else toDoItemRepository.deals.filter { !it.isDone }
+    }
+
+    private val dealsCountChangeCallback = {
         doneCount.value = toDoItemRepository.deals.count { it.isDone }
     }
+
+    private val callbacks = mutableListOf<OnChangeToDoListCallback>()
 
     // TODO: Можно вынести в настройки
     val isDoneShowed = savedStateHandle.getLiveData<Boolean>(IS_DONE_SHOWED, false)
     val doneCount = savedStateHandle.getLiveData<Int>(DONE_COUNT)
 
     init {
-        toDoItemRepository.registerOnChangeToDoList(repositoryCallback)
+        callbacks.add(dealsChangeCallback)
+        callbacks.add(dealsCountChangeCallback)
+        callbacks.forEach {
+            toDoItemRepository.registerOnChangeToDoList(it)
+        }
     }
 
     fun onDone(toDoItem: ToDoItem) {
@@ -45,12 +54,14 @@ class AllDealsViewModel(
 
     fun showOrHideDone() {
         isDoneShowed.value = !isDoneShowed.value!!
-        repositoryCallback.invoke()
+        dealsChangeCallback.invoke()
     }
 
     override fun onCleared() {
         super.onCleared()
-        toDoItemRepository.unregisterOnChangeToDoList(repositoryCallback)
+        callbacks.forEach {
+            toDoItemRepository.unregisterOnChangeToDoList(it)
+        }
     }
 
     companion object {

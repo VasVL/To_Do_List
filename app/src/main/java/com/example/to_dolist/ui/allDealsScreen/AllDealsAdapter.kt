@@ -65,6 +65,7 @@ class AllDealsAdapter(
                 } else {
                     deal.text = item.getDealWithImportance()
                     deal.setTextColor(colorBlack)
+                    deal.paintFlags = 0
                 }
                 deadline.text = item.deadline?.format() ?: ""
             }
