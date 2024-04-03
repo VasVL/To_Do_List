@@ -111,7 +111,6 @@ class AllDealsFragment : Fragment() {
 
     private fun createAdapter(): AllDealsAdapter {
         return AllDealsAdapter(
-            requireContext(),
             object : ToDoListClickListener {
                 override fun onDone(toDoItem: ToDoItem) {
                     viewModel.onDone(toDoItem)
