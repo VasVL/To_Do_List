@@ -9,6 +9,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updateLayoutParams
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.to_dolist.R
 import com.example.to_dolist.data.ToDoItem
@@ -118,6 +119,8 @@ class AllDealsFragment : Fragment() {
 
                 override fun onChoose(toDoItem: ToDoItem) {
                     viewModel.onChoose(toDoItem)
+                    val directions = AllDealsFragmentDirections.actionAllDealsFragmentToChangeDealFragment()
+                    findNavController().navigate(directions)
                 }
 
             }

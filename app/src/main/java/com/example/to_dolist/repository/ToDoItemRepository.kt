@@ -8,6 +8,7 @@ typealias OnChangeToDoListCallback = (List<ToDoItem>) -> Unit
 class ToDoItemRepository {
 
     private val _deals: List<ToDoItem>
+        // TODO: хуита
         get() = if (_isDoneShowed) DB._deals.toList()
         else DB._deals.filter { !it.isDone }
     private var _isDoneShowed = false

@@ -12,5 +12,15 @@ dependencyResolutionManagement {
         mavenCentral()
     }
 }
+buildscript {
+    repositories {
+        google()
+        mavenCentral()
+    }
+    dependencies {
+        var nav_version = "2.7.7"
+        classpath("androidx.navigation:navigation-safe-args-gradle-plugin:$nav_version")
+    }
+}
 rootProject.name = "To-Do List"
 include ':app'

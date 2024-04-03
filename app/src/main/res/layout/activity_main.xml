@@ -11,6 +11,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/backPrimary"
-        android:name="com.example.to_dolist.ui.allDealsScreen.AllDealsFragment" />
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        app:navGraph="@navigation/main"
+        app:defaultNavHost="true"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

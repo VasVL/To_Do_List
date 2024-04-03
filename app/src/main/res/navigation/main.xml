@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    app:startDestination="@id/allDealsFragment">
+
+    <fragment
+        android:id="@+id/allDealsFragment"
+        android:name="com.example.to_dolist.ui.allDealsScreen.AllDealsFragment"
+        android:label="AllDealsFragment" >
+        <action
+            android:id="@+id/action_allDealsFragment_to_changeDealFragment"
+            app:destination="@id/changeDealFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/changeDealFragment"
+        android:name="com.example.to_dolist.ui.changeDealScreen.ChangeDealFragment"
+        android:label="fragment_change_deal"
+        tools:layout="@layout/fragment_change_deal" />
+</navigation>
