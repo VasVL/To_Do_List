@@ -8,7 +8,8 @@
     <fragment
         android:id="@+id/allDealsFragment"
         android:name="com.example.to_dolist.ui.allDealsScreen.AllDealsFragment"
-        android:label="AllDealsFragment" >
+        android:label="AllDealsFragment"
+        tools:layout="@layout/fragment_all_deals">
         <action
             android:id="@+id/action_allDealsFragment_to_changeDealFragment"
             app:destination="@id/changeDealFragment" />

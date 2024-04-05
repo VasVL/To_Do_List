@@ -30,50 +30,6 @@
             app:expandedTitleTextAppearance="@style/ExpandedAppBar"
             >
 
-<!--            <androidx.constraintlayout.widget.ConstraintLayout-->
-<!--                android:id="@+id/titleLayout"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="match_parent"-->
-<!--                app:layout_collapseMode="pin">-->
-
-<!--                <TextView-->
-<!--                    android:id="@+id/textDone"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_marginBottom="16dp"-->
-<!--                    android:text="Выполнено - "-->
-<!--                    android:textColor="@color/gray"-->
-<!--                    android:textSize="20sp"-->
-<!--                    app:layout_constraintBottom_toBottomOf="parent"-->
-<!--                    app:layout_constraintEnd_toStartOf="@+id/sdsd"-->
-<!--                    app:layout_constraintHorizontal_bias="0.24"-->
-<!--                    app:layout_constraintStart_toStartOf="parent" />-->
-
-<!--                <TextView-->
-<!--                    android:id="@+id/title"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:text="Мои дела"-->
-<!--                    android:textSize="40sp"-->
-<!--                    android:textStyle="bold"-->
-<!--                    android:textColor="@color/black"-->
-<!--                    app:layout_constraintBottom_toTopOf="@id/textDone"-->
-<!--                    app:layout_constraintStart_toStartOf="@id/textDone" />-->
-
-<!--                <ImageView-->
-<!--                    android:id="@+id/sdsd"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    app:layout_constraintBottom_toBottomOf="parent"-->
-<!--                    app:layout_constraintEnd_toEndOf="parent"-->
-<!--                    android:layout_marginEnd="12dp"-->
-<!--                    android:layout_marginBottom="20dp"-->
-<!--                    android:src="@drawable/baseline_visibility_24"/>-->
-
-<!--            </androidx.constraintlayout.widget.ConstraintLayout>-->
-
-
-
             <com.google.android.material.appbar.MaterialToolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
@@ -112,19 +68,6 @@
         </com.google.android.material.appbar.CollapsingToolbarLayout>
 
     </com.google.android.material.appbar.AppBarLayout>
-
-<!--    <com.google.android.material.card.MaterialCardView-->
-<!--        android:id="@+id/card"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        style="?attr/materialCardViewElevatedStyle"-->
-<!--        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"-->
-<!--        android:layout_margin="8dp"-->
-<!--        android:background="@color/white"-->
-<!--        >-->
-
-
-    <!--    </com.google.android.material.card.MaterialCardView>-->
 
     <FrameLayout
         android:id="@+id/shadowToolbarLayout"

@@ -12,6 +12,7 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor">@color/backPrimary</item>
         <!-- Customize your theme here. -->
+        <item name="android:actionMenuTextColor">@color/blue</item>
     </style>
 
     <style name="ExpandedAppBar" parent="@android:style/TextAppearance">
