@@ -2,7 +2,7 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
+    android:id="@+id/main_graph"
     app:startDestination="@id/allDealsFragment">
 
     <fragment
@@ -18,5 +18,9 @@
         android:id="@+id/changeDealFragment"
         android:name="com.example.to_dolist.ui.changeDealScreen.ChangeDealFragment"
         android:label="fragment_change_deal"
-        tools:layout="@layout/fragment_change_deal" />
+        tools:layout="@layout/fragment_change_deal" >
+        <argument
+            android:name="dealId"
+            app:argType="long" />
+    </fragment>
 </navigation>

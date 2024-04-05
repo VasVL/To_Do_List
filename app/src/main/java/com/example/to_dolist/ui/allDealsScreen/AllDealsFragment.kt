@@ -119,7 +119,7 @@ class AllDealsFragment : Fragment() {
 
                 override fun onChoose(toDoItem: ToDoItem) {
                     viewModel.onChoose(toDoItem)
-                    val directions = AllDealsFragmentDirections.actionAllDealsFragmentToChangeDealFragment()
+                    val directions = AllDealsFragmentDirections.actionAllDealsFragmentToChangeDealFragment(toDoItem.id)
                     findNavController().navigate(directions)
                 }
 
