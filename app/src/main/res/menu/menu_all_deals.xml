@@ -2,7 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item android:id="@+id/viewAll"
+    <item android:id="@+id/itemViewAll"
         android:title="@string/viewAll"
         android:icon="@drawable/baseline_visibility_24"
         app:showAsAction="collapseActionView|ifRoom"

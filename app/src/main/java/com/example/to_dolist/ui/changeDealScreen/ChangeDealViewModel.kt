@@ -27,7 +27,7 @@ class ChangeDealViewModel(
         if (id != -1L) _deal.value = toDoItemRepository.getDeal(id)
     }
 
-    fun save(deal: String, importance: ToDoItem.DealImportance, deadline: Date) {
+    fun save(deal: String, importance: ToDoItem.DealImportance, deadline: Date?) {
         val newDeal = ToDoItem(
             id = id,
             deal = deal,

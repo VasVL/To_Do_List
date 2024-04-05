@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.to_dolist.R
 import com.example.to_dolist.data.ToDoItem
@@ -54,7 +55,27 @@ class ChangeDealFragment : Fragment() {
                 deleteText.setTextColor(requireContext().resources.getColor(R.color.red))
             }
 
-
+            toolbar.setOnMenuItemClickListener {
+                when (it.itemId) {
+                    R.id.itemSave -> {
+                        viewModel.save(
+                            deal = whatToDo.text.toString(),
+                            importance = when (importance.text) {
+                                "Важно" -> ToDoItem.DealImportance.HIGH
+                                "Не важно" -> ToDoItem.DealImportance.LOW
+                                else -> ToDoItem.DealImportance.AVERAGE
+                            },
+                            deadline = viewModel.deal.value?.deadline // todo
+                        )
+                        findNavController().navigateUp()
+                        true
+                    }
+                    else ->{
+                        false
+                    }
+                }
+            }
+            toolbar.setNavigationOnClickListener { findNavController().navigateUp() }
         }
     }
 
