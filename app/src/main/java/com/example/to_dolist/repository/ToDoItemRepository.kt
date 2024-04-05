@@ -9,11 +9,13 @@ class ToDoItemRepository {
 
     private val _deals: List<ToDoItem>
         // TODO: хуита
-        get() = if (_isDoneShowed) DB._deals.toList()
-        else DB._deals.filter { !it.isDone }
-    private var _isDoneShowed = false
+        get() = DB._deals.toList()
 
     private val callbacks = mutableListOf<OnChangeToDoListCallback>()
+
+    fun getDeal(id: Long): ToDoItem? {
+        return _deals.firstOrNull { it.id == id }
+    }
 
     fun addDeal(deal: ToDoItem): Boolean {
         val isAdded = DB.addDeal(deal)
@@ -34,7 +36,6 @@ class ToDoItemRepository {
     }
 
     fun filterDeals(isDoneShowed: Boolean) {
-        _isDoneShowed = isDoneShowed
         notifyToDoListChanged()
     }
 

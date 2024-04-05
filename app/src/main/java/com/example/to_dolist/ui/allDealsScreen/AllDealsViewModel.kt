@@ -10,6 +10,7 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.to_dolist.Repo
 import com.example.to_dolist.data.ToDoItem
+import com.example.to_dolist.db.DB
 import com.example.to_dolist.repository.OnChangeToDoListCallback
 import com.example.to_dolist.repository.ToDoItemRepository
 
@@ -23,7 +24,8 @@ class AllDealsViewModel(
     val deals: LiveData<List<ToDoItem>> get() = _deals
 
     private val dealsChangeCallback: OnChangeToDoListCallback = { list ->
-        _deals.value = list
+        _deals.value = if (isDoneShowed.value == true) DB._deals.toList()
+        else DB._deals.filter { !it.isDone }
     }
 
     private val dealsCountChangeCallback: OnChangeToDoListCallback = { list ->

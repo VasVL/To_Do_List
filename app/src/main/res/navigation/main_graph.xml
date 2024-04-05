@@ -20,7 +20,7 @@
         android:label="fragment_change_deal"
         tools:layout="@layout/fragment_change_deal" >
         <argument
-            android:name="dealId"
+            android:name="DEAL_ID"
             app:argType="long" />
     </fragment>
 </navigation>

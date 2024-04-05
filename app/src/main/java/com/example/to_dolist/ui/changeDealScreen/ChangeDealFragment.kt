@@ -5,13 +5,18 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
-import com.example.to_dolist.R
-import com.example.to_dolist.ui.allDealsScreen.AllDealsFragmentDirections
+import com.example.to_dolist.databinding.FragmentChangeDealBinding
 
 class ChangeDealFragment : Fragment() {
 
     private val args: ChangeDealFragmentArgs by navArgs()
+
+    private val viewModel: ChangeDealViewModel by viewModels { ChangeDealViewModel.Factory }
+
+    private var _binding: FragmentChangeDealBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,8 +27,16 @@ class ChangeDealFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        _binding = FragmentChangeDealBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
-        return inflater.inflate(R.layout.fragment_change_deal, container, false)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        with(binding) {
+            whatToDo.setText(viewModel.deal.value?.deal ?: "")
+        }
     }
 
 }
