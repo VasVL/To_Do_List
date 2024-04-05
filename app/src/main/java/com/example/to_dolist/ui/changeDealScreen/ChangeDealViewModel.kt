@@ -11,7 +11,7 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.to_dolist.Repo
 import com.example.to_dolist.data.ToDoItem
 import com.example.to_dolist.repository.ToDoItemRepository
-import com.example.to_dolist.ui.allDealsScreen.AllDealsViewModel
+import java.util.Date
 
 class ChangeDealViewModel(
     private val toDoItemRepository: ToDoItemRepository,
@@ -25,6 +25,26 @@ class ChangeDealViewModel(
 
     init {
         if (id != -1L) _deal.value = toDoItemRepository.getDeal(id)
+    }
+
+    fun save(deal: String, importance: ToDoItem.DealImportance, deadline: Date) {
+        val newDeal = ToDoItem(
+            id = id,
+            deal = deal,
+            importance = importance,
+            isDone = false,
+            deadline = deadline,
+            changeDate = null
+        )
+        if (id != -1L) {
+            toDoItemRepository.changeDeal(newDeal)
+        } else {
+            toDoItemRepository.addDeal(newDeal)
+        }
+    }
+
+    fun delete() {
+        toDoItemRepository.deleteDeal(id)
     }
 
     companion object {

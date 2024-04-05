@@ -30,8 +30,7 @@ class DB {
         )
 
         fun addDeal(deal: ToDoItem): Boolean {
-            val isAdded = _deals.add(deal)
-            return isAdded
+            return _deals.add(deal.copy(id = _deals.size.toLong()))
         }
 
         fun changeDeal(deal: ToDoItem): Boolean {
@@ -41,9 +40,8 @@ class DB {
             return true
         }
 
-        fun filterDeals(isDoneShowed: Boolean): List<ToDoItem> {
-            return if (isDoneShowed) _deals.toList()
-            else _deals.filter { !it.isDone }
+        fun deleteDeal(id: Long): Boolean {
+            return _deals.removeAll { it.id == id }
         }
     }
 }

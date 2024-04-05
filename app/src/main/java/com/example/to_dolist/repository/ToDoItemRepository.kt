@@ -18,21 +18,21 @@ class ToDoItemRepository {
     }
 
     fun addDeal(deal: ToDoItem): Boolean {
-        val isAdded = DB.addDeal(deal)
-        if (isAdded) {
-            notifyToDoListChanged()
-        }
-        return isAdded
+        val isOk = DB.addDeal(deal)
+        if (isOk) notifyToDoListChanged()
+        return isOk
     }
 
     fun changeDeal(deal: ToDoItem): Boolean {
         val isOk = DB.changeDeal(deal)
-        if (isOk) {
-            notifyToDoListChanged()
-            return true
-        }
+        if (isOk) notifyToDoListChanged()
+        return isOk
+    }
 
-        return false
+    fun deleteDeal(id: Long): Boolean {
+        val isOk =  DB.deleteDeal(id)
+        if (isOk) notifyToDoListChanged()
+        return isOk
     }
 
     fun filterDeals(isDoneShowed: Boolean) {

@@ -7,7 +7,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
+import com.example.to_dolist.R
+import com.example.to_dolist.data.ToDoItem
 import com.example.to_dolist.databinding.FragmentChangeDealBinding
+import com.example.to_dolist.util.format
 
 class ChangeDealFragment : Fragment() {
 
@@ -35,8 +38,29 @@ class ChangeDealFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         with(binding) {
-            whatToDo.setText(viewModel.deal.value?.deal ?: "")
+            val toDoItem = viewModel.deal.value
+            toDoItem?.let { toDo ->
+                whatToDo.setText(toDo.deal)
+                importance.text = when (toDo.importance) {
+                    ToDoItem.DealImportance.HIGH -> { "Важно" }
+                    ToDoItem.DealImportance.LOW -> { "Не важно" }
+                    ToDoItem.DealImportance.AVERAGE -> { "Нет" }
+                }
+                val deadline = toDo.deadline
+                if (deadline != null) {
+                    deadlineDate.text = deadline.format()
+                    deadlineDate.visibility = View.VISIBLE
+                }
+                deleteText.setTextColor(requireContext().resources.getColor(R.color.red))
+            }
+
+
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
 }
