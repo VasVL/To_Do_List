@@ -4,8 +4,10 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.OnClickListener
 import android.view.ViewGroup
 import android.widget.PopupMenu
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -74,14 +76,7 @@ class ChangeDealFragment : Fragment() {
             whatToDo.setText(toDoItem.text)
 
             deleteText.setTextColor(requireContext().resources.getColor(R.color.red))
-            deleteText.setOnClickListener {
-                viewModel.delete() // TODO: показывать диалог подтверждение
-                findNavController().navigateUp()
-            }
-            deleteImage.setOnClickListener {
-                viewModel.delete()
-                findNavController().navigateUp()
-            }
+            deleteView.setOnClickListener(deleteClickListener)
 
             // TODO: Возможность вызвать datePicker нажатием на саму дату
             // TODO: открывается при первом заходе на экран, если есть установленный дедлайн
@@ -130,6 +125,18 @@ class ChangeDealFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private val deleteClickListener: OnClickListener = OnClickListener {
+        AlertDialog.Builder(requireContext())
+            .setTitle("Удалить дело?")
+            .setPositiveButton("Удалить") { _, _ ->
+                viewModel.delete()
+                findNavController().navigateUp()
+            }
+            .setNegativeButton("NOOO!!!") { _, _ -> }
+            .create()
+            .show()
     }
 
     private fun showPopupMenu() {

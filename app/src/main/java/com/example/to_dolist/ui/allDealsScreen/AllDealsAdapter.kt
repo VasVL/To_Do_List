@@ -27,7 +27,7 @@ class AllDealsAdapter(
         val tag = view.tag as ToDoItem
         when (view.id) {
             R.id.isDone -> clickListener.onDone(tag)
-            else -> if (!tag.isDone) clickListener.onChoose(tag)
+            else -> clickListener.onChoose(tag)
         }
     }
 
@@ -64,8 +64,6 @@ class AllDealsAdapter(
                     deal.paintFlags = 0
                 }
                 deadline.text = item.deadline?.format() ?: ""
-
-                root.isClickable = !item.isDone
             }
         }
     }

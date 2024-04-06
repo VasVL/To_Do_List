@@ -151,12 +151,26 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/barrier1"/>
 
+                <View
+                    android:id="@+id/deleteView"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/divider2"
+                    app:layout_constraintBottom_toTopOf="@id/barrier2"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    />
+
                 <ImageView
                     android:id="@+id/deleteImage"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/divider2"
+                    app:layout_constraintBottom_toTopOf="@id/barrier2"
                     android:src="@drawable/baseline_delete_24"
                     android:layout_margin="20dp"/>
 
