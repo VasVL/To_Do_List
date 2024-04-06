@@ -13,10 +13,6 @@ class ToDoItemRepository {
 
     private val callbacks = mutableListOf<OnChangeToDoListCallback>()
 
-    fun getDeal(id: Long): ToDoItem? {
-        return _deals.firstOrNull { it.id == id }?.copy()
-    }
-
     fun addDeal(deal: ToDoItem): Boolean {
         val isOk = DB.addDeal(deal)
         if (isOk) notifyToDoListChanged()
@@ -35,7 +31,7 @@ class ToDoItemRepository {
         return isOk
     }
 
-    fun filterDeals(isDoneShowed: Boolean) {
+    fun filterDeals() {
         notifyToDoListChanged()
     }
 

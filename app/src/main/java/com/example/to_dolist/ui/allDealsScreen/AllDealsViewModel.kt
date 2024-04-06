@@ -50,13 +50,9 @@ class AllDealsViewModel(
         toDoItemRepository.changeDeal(toDoItem.copy(isDone = !toDoItem.isDone))
     }
 
-    fun onChoose(toDoItem: ToDoItem) {
-
-    }
-
     fun showOrHideDone() {
         isDoneShowed.value = !isDoneShowed.value!!
-        toDoItemRepository.filterDeals(isDoneShowed.value!!)
+        toDoItemRepository.filterDeals() // todo Тоже не нравится мне как сделано
     }
 
     override fun onCleared() {

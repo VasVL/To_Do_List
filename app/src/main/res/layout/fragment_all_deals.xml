@@ -79,7 +79,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             tools:itemCount="10"
             tools:listitem="@layout/list_item_to_do" />
 

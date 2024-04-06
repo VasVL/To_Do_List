@@ -51,16 +51,14 @@ class AllDealsAdapter(
                 isDone.tag = item
                 isDone.isChecked = item.isDone
                 if (item.isDone) {
-                    // TODO: Здесь кстати датабиндинг бог бы помочь
-                    //  В любом случае лучше переделать на два разных Item'а
                     val greyColor = deal.context.resources.getColor(R.color.gray)
                     deal.setTextColor(greyColor)
                     deal.text = "${item.text}"
                     deal.paintFlags = STRIKE_THRU_TEXT_FLAG
                 } else {
-                    deal.text = item.getDealWithImportance()
                     val blackColor = deal.context.resources.getColor(R.color.black)
                     deal.setTextColor(blackColor)
+                    deal.text = item.getDealWithImportance()
                     deal.paintFlags = 0
                 }
                 deadline.text = item.deadline?.format() ?: ""

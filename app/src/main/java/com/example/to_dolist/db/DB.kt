@@ -1,7 +1,6 @@
 package com.example.to_dolist.db
 
 import com.example.to_dolist.data.ToDoItem
-import java.util.Calendar
 import java.util.Date
 import java.util.GregorianCalendar
 
