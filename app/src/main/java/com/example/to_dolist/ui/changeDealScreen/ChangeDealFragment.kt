@@ -77,24 +77,16 @@ class ChangeDealFragment : Fragment() {
 
             deleteText.setTextColor(requireContext().resources.getColor(R.color.red))
             deleteView.setOnClickListener(deleteClickListener)
-
-            // TODO: Возможность вызвать datePicker нажатием на саму дату
+            
             // TODO: открывается при первом заходе на экран, если есть установленный дедлайн
             deadlineEnable.setOnCheckedChangeListener { compoundButton, isChecked ->
                 if (isChecked) {
-                    val datePicker =
-                        MaterialDatePicker.Builder.datePicker()
-                            .setTitleText("Дедлайн")
-                            .setSelection(if (toDoItem.deadline != null) toDoItem.deadline!!.time else System.currentTimeMillis())
-                            .build()
-                    datePicker.addOnPositiveButtonClickListener {
-                        viewModel.changeDeal(toDoItem.copy(deadline = Date(it)))
-                    }
-                    datePicker.show(childFragmentManager, "tag")
+                    showDatePicker(toDoItem)
                 } else {
                     viewModel.changeDeal(toDoItem.copy(deadline = null))
                 }
             }
+            deadlineDate.setOnClickListener { showDatePicker(toDoItem) }
 
             importanceView.setOnClickListener { showPopupMenu() }
 
@@ -137,6 +129,18 @@ class ChangeDealFragment : Fragment() {
             .setNegativeButton("NOOO!!!") { _, _ -> }
             .create()
             .show()
+    }
+
+    private fun showDatePicker(toDoItem: ToDoItem) {
+        val datePicker =
+            MaterialDatePicker.Builder.datePicker()
+                .setTitleText("Дедлайн")
+                .setSelection(if (toDoItem.deadline != null) toDoItem.deadline!!.time else System.currentTimeMillis())
+                .build()
+        datePicker.addOnPositiveButtonClickListener {
+            viewModel.changeDeal(toDoItem.copy(deadline = Date(it)))
+        }
+        datePicker.show(childFragmentManager, "tag")
     }
 
     private fun showPopupMenu() {
