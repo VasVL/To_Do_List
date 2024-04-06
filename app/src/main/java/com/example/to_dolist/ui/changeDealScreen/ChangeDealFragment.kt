@@ -75,7 +75,7 @@ class ChangeDealFragment : Fragment() {
 
             deleteText.setTextColor(requireContext().resources.getColor(R.color.red))
             deleteText.setOnClickListener {
-                viewModel.delete()
+                viewModel.delete() // TODO: показывать диалог подтверждение
                 findNavController().navigateUp()
             }
             deleteImage.setOnClickListener {
@@ -101,9 +101,7 @@ class ChangeDealFragment : Fragment() {
                 }
             }
 
-            // TODO: запихать их в одну общую вьюху побольше
-            importance.setOnClickListener { showPopupMenu() }
-            importanceText.setOnClickListener { showPopupMenu() }
+            importanceView.setOnClickListener { showPopupMenu() }
 
             toolbar.setOnMenuItemClickListener {
                 when (it.itemId) {
