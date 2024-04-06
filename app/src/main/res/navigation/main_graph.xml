@@ -21,6 +21,7 @@
         tools:layout="@layout/fragment_change_deal" >
         <argument
             android:name="DEAL_ID"
-            app:argType="long" />
+            app:argType="long"
+            android:defaultValue="-1L" />
     </fragment>
 </navigation>

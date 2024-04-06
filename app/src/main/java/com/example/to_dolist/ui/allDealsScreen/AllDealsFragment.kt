@@ -54,7 +54,9 @@ class AllDealsFragment : Fragment() {
             }
         }
 
-
+        // TODO: Баг - если удалить из спика элементы, CollapsingLayout всё равно скроллится
+        // TODO: Баг - если пометить как выполненный элемент из начала списка, а потом нажать "показать выполненные",
+        //  то CollapsingLayout всё равно остаётся развёрнут, а первый элемент скрыт под ним
 
         val myLayoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
 
@@ -94,6 +96,11 @@ class AllDealsFragment : Fragment() {
                 }
 
                 WindowInsetsCompat.CONSUMED
+            }
+
+            addButton.setOnClickListener {
+                val directions = AllDealsFragmentDirections.actionAllDealsFragmentToChangeDealFragment()
+                findNavController().navigate(directions)
             }
 
             showAllDeals.setOnClickListener {

@@ -24,7 +24,8 @@ class ChangeDealViewModel(
     val deal: LiveData<ToDoItem> get() = _deal
 
     init {
-        if (id != -1L) _deal.value = toDoItemRepository.getDeal(id)
+        _deal.value = if (id != -1L) toDoItemRepository.getDeal(id)
+        else ToDoItem()
     }
 
     fun save(deal: String, importance: ToDoItem.DealImportance, deadline: Date?) {

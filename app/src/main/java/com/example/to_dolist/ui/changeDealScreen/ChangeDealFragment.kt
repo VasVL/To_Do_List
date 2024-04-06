@@ -11,7 +11,10 @@ import androidx.navigation.fragment.navArgs
 import com.example.to_dolist.R
 import com.example.to_dolist.data.ToDoItem
 import com.example.to_dolist.databinding.FragmentChangeDealBinding
+import com.example.to_dolist.util.dateOrNullFromString
 import com.example.to_dolist.util.format
+import com.google.android.material.datepicker.MaterialDatePicker
+import java.util.Date
 
 class ChangeDealFragment : Fragment() {
 
@@ -48,12 +51,45 @@ class ChangeDealFragment : Fragment() {
                     ToDoItem.DealImportance.AVERAGE -> { "Нет" }
                 }
                 val deadline = toDo.deadline
-                if (deadline != null) {
+                deadlineEnable.isChecked = if (deadline != null) {
                     deadlineDate.text = deadline.format()
                     deadlineDate.visibility = View.VISIBLE
+                    true
+                } else {
+                    deadlineDate.visibility = View.GONE
+                    false
                 }
                 deleteText.setTextColor(requireContext().resources.getColor(R.color.red))
+                deleteText.setOnClickListener {
+                    viewModel.delete()
+                    findNavController().navigateUp()
+                }
+                deleteImage.setOnClickListener {
+                    viewModel.delete()
+                    findNavController().navigateUp()
+                }
+
+                deadlineEnable.setOnCheckedChangeListener { compoundButton, isChecked ->
+                    if (isChecked) {
+                        val datePicker =
+                            MaterialDatePicker.Builder.datePicker()
+                                .setTitleText("Дедлайн")
+                                .setSelection(if (toDo.deadline != null) toDo.deadline!!.time else System.currentTimeMillis())
+                                .build()
+                        datePicker.addOnPositiveButtonClickListener {
+                            deadlineDate.text = Date(it).format() // todo переделать на слушателей вьюмодели
+                            deadlineDate.visibility = View.VISIBLE
+                        }
+                        datePicker.addOnNegativeButtonClickListener { deadlineEnable.isChecked = false }
+                        datePicker.addOnCancelListener { deadlineEnable.isChecked = false }
+                        datePicker.show(childFragmentManager, "tag")
+                    } else {
+                        deadlineDate.visibility = View.GONE
+                    }
+                }
             }
+
+
 
             toolbar.setOnMenuItemClickListener {
                 when (it.itemId) {
@@ -65,7 +101,7 @@ class ChangeDealFragment : Fragment() {
                                 "Не важно" -> ToDoItem.DealImportance.LOW
                                 else -> ToDoItem.DealImportance.AVERAGE
                             },
-                            deadline = viewModel.deal.value?.deadline // todo
+                            deadline = if (deadlineEnable.isChecked) dateOrNullFromString(deadlineDate.text.toString()) else null
                         )
                         findNavController().navigateUp()
                         true
@@ -76,6 +112,14 @@ class ChangeDealFragment : Fragment() {
                 }
             }
             toolbar.setNavigationOnClickListener { findNavController().navigateUp() }
+
+            scrollView.setOnScrollChangeListener { _, _, y1, _, _ ->
+                if (y1 == 0) {
+                    toolbarShadow.visibility = View.INVISIBLE
+                } else {
+                    toolbarShadow.visibility = View.VISIBLE
+                }
+            }
         }
     }
 

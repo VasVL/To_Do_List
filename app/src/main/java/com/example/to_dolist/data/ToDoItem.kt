@@ -12,11 +12,13 @@ data class ToDoItem(
     var changeDate: Date?,
 ) {
 
+    constructor() : this(-1, "", ToDoItem.DealImportance.AVERAGE, false, null, null)
+
     fun getDealWithImportance(): String {
         return when(importance){
-            DealImportance.LOW -> "\u203C "
+            DealImportance.LOW -> "\u2B07 "
             DealImportance.AVERAGE -> ""
-            DealImportance.HIGH -> "\u2B07 "
+            DealImportance.HIGH -> "\u203C "
         } + deal
     }
 
