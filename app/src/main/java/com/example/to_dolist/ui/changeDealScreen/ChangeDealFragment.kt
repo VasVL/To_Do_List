@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.PopupMenu
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -42,12 +43,15 @@ class ChangeDealFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         with(binding) {
+
+
+
             val toDoItem = viewModel.deal.value
             toDoItem?.let { toDo ->
                 whatToDo.setText(toDo.deal)
                 importance.text = when (toDo.importance) {
-                    ToDoItem.DealImportance.HIGH -> { "Важно" }
-                    ToDoItem.DealImportance.LOW -> { "Не важно" }
+                    ToDoItem.DealImportance.HIGH -> { "Высокий" }
+                    ToDoItem.DealImportance.LOW -> { "Низкий" }
                     ToDoItem.DealImportance.AVERAGE -> { "Нет" }
                 }
                 val deadline = toDo.deadline
@@ -89,7 +93,8 @@ class ChangeDealFragment : Fragment() {
                 }
             }
 
-
+            importance.setOnClickListener { showPopupMenu() }
+            importanceText.setOnClickListener { showPopupMenu() }
 
             toolbar.setOnMenuItemClickListener {
                 when (it.itemId) {
@@ -97,8 +102,8 @@ class ChangeDealFragment : Fragment() {
                         viewModel.save(
                             deal = whatToDo.text.toString(),
                             importance = when (importance.text) {
-                                "Важно" -> ToDoItem.DealImportance.HIGH
-                                "Не важно" -> ToDoItem.DealImportance.LOW
+                                "Высокий" -> ToDoItem.DealImportance.HIGH
+                                "Низкий" -> ToDoItem.DealImportance.LOW
                                 else -> ToDoItem.DealImportance.AVERAGE
                             },
                             deadline = if (deadlineEnable.isChecked) dateOrNullFromString(deadlineDate.text.toString()) else null
@@ -126,6 +131,31 @@ class ChangeDealFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun showPopupMenu() {
+        val popupMenu = PopupMenu(requireContext(), binding.importance)
+        popupMenu.inflate(R.menu.menu_importance)
+
+        popupMenu.setOnMenuItemClickListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.itemImportanceAverage -> {
+                    binding.importance.text = "Нет"
+                    binding.importance.setTextColor(requireContext().resources.getColor(R.color.gray))
+                }
+                R.id.itemImportanceLow -> {
+                    binding.importance.text = "Низкий"
+                    binding.importance.setTextColor(requireContext().resources.getColor(R.color.black))
+                }
+                R.id.itemImportanceHigh -> {
+                    binding.importance.text = "Высокий"
+                    binding.importance.setTextColor(requireContext().resources.getColor(R.color.red))
+                }
+            }
+            true
+        }
+
+        popupMenu.show()
     }
 
 }

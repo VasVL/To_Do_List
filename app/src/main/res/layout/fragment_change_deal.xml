@@ -70,7 +70,17 @@
                     android:textSize="20sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/whatToDo"/>
-
+<!--<Spinner-->
+<!--    android:id="@+id/importance"-->
+<!--    android:layout_width="0dp"-->
+<!--    android:layout_height="wrap_content"-->
+<!--    android:text="Нет"-->
+<!--    android:layout_marginStart="16dp"-->
+<!--    android:textSize="16sp"-->
+<!--    android:textColor="@color/gray"-->
+<!--    app:layout_constraintStart_toStartOf="parent"-->
+<!--    app:layout_constraintTop_toBottomOf="@id/importanceText"-->
+<!--    />-->
                 <TextView
                     android:id="@+id/importance"
                     android:layout_width="0dp"
