@@ -13,14 +13,17 @@ class ItemDecoration : RecyclerView.ItemDecoration() {
 
     override fun onDraw(c: Canvas, parent: RecyclerView, state: RecyclerView.State) {
         val last = parent.adapter?.itemCount ?: 0
-
-        // TODO: Ну явно же скруглённые края задаются не через бэкграунд, надо погуглить
-        for (view in parent.children) {
-            val index = parent.getChildAdapterPosition(view)
-            view.background = when (index) {
-                0 -> AppCompatResources.getDrawable(parent.context, R.drawable.layout_recycle_item_top)
-                last - 1 -> AppCompatResources.getDrawable(parent.context, R.drawable.layout_recycle_item_bottom)
-                else -> AppCompatResources.getDrawable(parent.context, R.drawable.layout_recycle_item_mid)
+        if (last == 1) { //один элемент: срезать края и там и там
+            parent.children.first().background = AppCompatResources.getDrawable(parent.context, R.drawable.layout_recycle_item_single)
+        } else {
+            // TODO: Ну явно же скруглённые края задаются не через бэкграунд, надо погуглить
+            for (view in parent.children) {
+                val index = parent.getChildAdapterPosition(view)
+                view.background = when (index) {
+                    0 -> AppCompatResources.getDrawable(parent.context, R.drawable.layout_recycle_item_top)
+                    last - 1 -> AppCompatResources.getDrawable(parent.context, R.drawable.layout_recycle_item_bottom)
+                    else -> AppCompatResources.getDrawable(parent.context, R.drawable.layout_recycle_item_mid)
+                }
             }
         }
     }
@@ -36,6 +39,7 @@ class ItemDecoration : RecyclerView.ItemDecoration() {
         when (index) {
             0 -> outRect.top = TypedValueCompat.dpToPx(2f, view.resources.displayMetrics).toInt()
             last - 1 -> {
+                // TODO: Багулина при пометке выполненным последнего эдемента
                 outRect.bottom = TypedValueCompat.dpToPx(100f, view.resources.displayMetrics).toInt()
             }
         }

@@ -32,7 +32,7 @@ class DB {
         )
 
         fun addDeal(deal: ToDoItem): Boolean {
-            return _deals.add(deal.copy(id = _deals.size.toLong()))
+            return _deals.add(deal.copy(id = (_deals.size + 1).toLong()))
         }
 
         fun changeDeal(deal: ToDoItem): Boolean {

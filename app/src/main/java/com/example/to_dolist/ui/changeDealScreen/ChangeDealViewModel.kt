@@ -16,23 +16,15 @@ class ChangeDealViewModel(
     private val savedStateHandle: SavedStateHandle,
 ): ViewModel() {
 
-    private val id = savedStateHandle.get<Long>(DEAL_ID) ?: -1L
-
     private val _deal = savedStateHandle.getLiveData<ToDoItem>(DEAL)
     val deal: LiveData<ToDoItem> get() = _deal
-
-    init {
-        if (_deal.value == null) {
-            _deal.value = if (id != -1L) toDoItemRepository.getDeal(id) else ToDoItem()
-        }
-    }
 
     fun changeDeal(newDeal: ToDoItem) {
         _deal.value = newDeal
     }
 
     fun save(text: String) {
-        if (id != -1L) {
+        if (deal.value!!.id != -1L) {
             toDoItemRepository.changeDeal(deal.value!!.copy(text = text))
         } else {
             toDoItemRepository.addDeal(deal.value!!.copy(text = text))
@@ -40,7 +32,7 @@ class ChangeDealViewModel(
     }
 
     fun delete() {
-        toDoItemRepository.deleteDeal(id)
+        toDoItemRepository.deleteDeal(deal.value!!.id)
     }
 
     companion object {
@@ -55,7 +47,6 @@ class ChangeDealViewModel(
             }
         }
 
-        private const val DEAL_ID = "DEAL_ID"
         private const val DEAL = "DEAL"
     }
 }

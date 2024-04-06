@@ -20,8 +20,7 @@
         android:label="fragment_change_deal"
         tools:layout="@layout/fragment_change_deal" >
         <argument
-            android:name="DEAL_ID"
-            app:argType="long"
-            android:defaultValue="-1L" />
+            android:name="DEAL"
+            app:argType="com.example.to_dolist.data.ToDoItem" />
     </fragment>
 </navigation>

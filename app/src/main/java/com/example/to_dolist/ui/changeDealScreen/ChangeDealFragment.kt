@@ -8,9 +8,10 @@ import android.view.View.OnClickListener
 import android.view.ViewGroup
 import android.widget.PopupMenu
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.widget.Toolbar.OnMenuItemClickListener
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
 import com.example.to_dolist.R
 import com.example.to_dolist.data.ToDoItem
 import com.example.to_dolist.databinding.FragmentChangeDealBinding
@@ -20,17 +21,12 @@ import java.util.Date
 
 class ChangeDealFragment : Fragment() {
 
-    private val args: ChangeDealFragmentArgs by navArgs()
 
     private val viewModel: ChangeDealViewModel by viewModels { ChangeDealViewModel.Factory }
 
     private var _binding: FragmentChangeDealBinding? = null
     private val binding get() = _binding!!
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -45,78 +41,109 @@ class ChangeDealFragment : Fragment() {
 
         with(binding) {
 
-            viewModel.deal.observe(viewLifecycleOwner) { toDo ->
-                when (toDo.importance) {
-                    ToDoItem.DealImportance.HIGH -> {
-                        importance.text = "Высокий"
-                        binding.importance.setTextColor(requireContext().resources.getColor(R.color.red))
-                    }
-                    ToDoItem.DealImportance.LOW -> {
-                        importance.text = "Низкий"
-                        binding.importance.setTextColor(requireContext().resources.getColor(R.color.black))
-                    }
-                    ToDoItem.DealImportance.AVERAGE -> {
-                        importance.text = "Нет"
-                        binding.importance.setTextColor(requireContext().resources.getColor(R.color.gray))
-                    }
-                }
-
-                val deadline = toDo.deadline
-                deadlineEnable.isChecked = if (deadline != null) {
-                    deadlineDate.text = deadline.format()
-                    deadlineDate.visibility = View.VISIBLE
-                    true
-                } else {
-                    deadlineDate.visibility = View.GONE
-                    false
-                }
-            }
+            // Смотрим вьюмодель - обновляем стейт виджетов
+            viewModel.deal.observe(viewLifecycleOwner, toDoItemObserver)
 
             val toDoItem = viewModel.deal.value!!
+            // EditText сам хранит свой стейт, его в обсервере не смотрим
             whatToDo.setText(toDoItem.text)
 
-            deleteText.setTextColor(requireContext().resources.getColor(R.color.red))
-            deleteView.setOnClickListener(deleteClickListener)
-            
-            // TODO: открывается при первом заходе на экран, если есть установленный дедлайн
-            deadlineEnable.setOnCheckedChangeListener { compoundButton, isChecked ->
-                if (isChecked) {
+            // Удалять новое только что созданное дело не имеет смысла, так что вот
+            if (toDoItem.id != -1L)  {
+                deleteText.setTextColor(requireContext().resources.getColor(R.color.red))
+                deleteView.setOnClickListener(deleteClickListener)
+            } else {
+                deleteView.isClickable = false
+            }
+
+            // Устанавливаем дедлайн
+            deadlineDate.setOnClickListener { showDatePicker(toDoItem) }
+            deadlineEnable.setOnClickListener {
+                if (deadlineEnable.isChecked) {
                     showDatePicker(toDoItem)
                 } else {
                     viewModel.changeDeal(toDoItem.copy(deadline = null))
                 }
             }
-            deadlineDate.setOnClickListener { showDatePicker(toDoItem) }
+            // Баг: открывается при первом заходе на экран, если есть установленный дедлайн
+//            deadlineEnable.setOnCheckedChangeListener { compoundButton, isChecked ->
+//                if (isChecked) {
+//                    showDatePicker(toDoItem)
+//                } else {
+//                    viewModel.changeDeal(toDoItem.copy(deadline = null))
+//                }
+//            }
 
+            // Выбираем важность
             importanceView.setOnClickListener { showPopupMenu() }
 
-            toolbar.setOnMenuItemClickListener {
-                when (it.itemId) {
-                    R.id.itemSave -> {
-                        viewModel.save(whatToDo.text.toString())
-                        findNavController().navigateUp()
-                        true
-                    }
-                    else ->{
-                        false
-                    }
-                }
-            }
+            // Можем сохранить изменения/новое дело, либо выйти
+            toolbar.setOnMenuItemClickListener(onMenuItemClickListener)
             toolbar.setNavigationOnClickListener { findNavController().navigateUp() }
 
-            scrollView.setOnScrollChangeListener { _, _, y1, _, _ ->
-                if (y1 == 0) {
-                    toolbarShadow.visibility = View.INVISIBLE
-                } else {
-                    toolbarShadow.visibility = View.VISIBLE
-                }
-            }
+            // От руки рисуем тень под тулбаром
+            scrollView.setOnScrollChangeListener(toolbarShadowScrollListener)
         }
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private val toolbarShadowScrollListener = View.OnScrollChangeListener { _, _, y1, _, _ ->
+        binding.toolbarShadow.visibility = if (y1 == 0) {
+            View.INVISIBLE
+        } else {
+            View.VISIBLE
+        }
+    }
+
+    private val onMenuItemClickListener: OnMenuItemClickListener = OnMenuItemClickListener {
+        when (it.itemId) {
+            R.id.itemSave -> {
+                val dealText = binding.whatToDo.text.toString()
+                viewModel.save(dealText)
+                findNavController().navigateUp()
+                true
+            }
+            else ->{
+                false
+            }
+        }
+    }
+
+    private val toDoItemObserver: Observer<ToDoItem> = Observer{ toDo ->
+        setImportance(toDo.importance)
+        setDeadline(toDo.deadline)
+    }
+
+    private fun setImportance(importance: ToDoItem.DealImportance) {
+        when (importance) {
+            ToDoItem.DealImportance.HIGH -> {
+                binding.importance.text = "Высокий"
+                binding.importance.setTextColor(requireContext().resources.getColor(R.color.red))
+            }
+            ToDoItem.DealImportance.LOW -> {
+                binding.importance.text = "Низкий"
+                binding.importance.setTextColor(requireContext().resources.getColor(R.color.black))
+            }
+            ToDoItem.DealImportance.AVERAGE -> {
+                binding.importance.text = "Нет"
+                binding.importance.setTextColor(requireContext().resources.getColor(R.color.gray))
+            }
+        }
+    }
+
+    private fun setDeadline(deadline: Date?) {
+        binding.deadlineEnable.isChecked = if (deadline != null) {
+            binding.deadlineDate.text = deadline.format()
+            binding.deadlineDate.visibility = View.VISIBLE
+            true
+        } else {
+            binding.deadlineDate.visibility = View.GONE
+            false
+        }
     }
 
     private val deleteClickListener: OnClickListener = OnClickListener {
@@ -143,6 +170,9 @@ class ChangeDealFragment : Fragment() {
         datePicker.show(childFragmentManager, "tag")
     }
 
+    /**
+     * Меню выбора важности дела
+     * */
     private fun showPopupMenu() {
         val popupMenu = PopupMenu(requireContext(), binding.importance)
         popupMenu.inflate(R.menu.menu_importance)
