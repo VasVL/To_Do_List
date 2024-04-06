@@ -1,7 +1,6 @@
 package com.example.to_dolist.ui.changeDealScreen
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -11,7 +10,6 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.to_dolist.Repo
 import com.example.to_dolist.data.ToDoItem
 import com.example.to_dolist.repository.ToDoItemRepository
-import java.util.Date
 
 class ChangeDealViewModel(
     private val toDoItemRepository: ToDoItemRepository,
@@ -20,27 +18,24 @@ class ChangeDealViewModel(
 
     private val id = savedStateHandle.get<Long>(DEAL_ID) ?: -1L
 
-    private val _deal = MutableLiveData<ToDoItem>()
+    private val _deal = savedStateHandle.getLiveData<ToDoItem>(DEAL)
     val deal: LiveData<ToDoItem> get() = _deal
 
     init {
-        _deal.value = if (id != -1L) toDoItemRepository.getDeal(id)
-        else ToDoItem()
+        if (_deal.value == null) {
+            _deal.value = if (id != -1L) toDoItemRepository.getDeal(id) else ToDoItem()
+        }
     }
 
-    fun save(deal: String, importance: ToDoItem.DealImportance, deadline: Date?) {
-        val newDeal = ToDoItem(
-            id = id,
-            deal = deal,
-            importance = importance,
-            isDone = false,
-            deadline = deadline,
-            changeDate = null
-        )
+    fun changeDeal(newDeal: ToDoItem) {
+        _deal.value = newDeal
+    }
+
+    fun save(text: String) {
         if (id != -1L) {
-            toDoItemRepository.changeDeal(newDeal)
+            toDoItemRepository.changeDeal(deal.value!!.copy(text = text))
         } else {
-            toDoItemRepository.addDeal(newDeal)
+            toDoItemRepository.addDeal(deal.value!!.copy(text = text))
         }
     }
 
@@ -61,5 +56,6 @@ class ChangeDealViewModel(
         }
 
         private const val DEAL_ID = "DEAL_ID"
+        private const val DEAL = "DEAL"
     }
 }

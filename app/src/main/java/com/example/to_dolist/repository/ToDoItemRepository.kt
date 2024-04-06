@@ -14,7 +14,7 @@ class ToDoItemRepository {
     private val callbacks = mutableListOf<OnChangeToDoListCallback>()
 
     fun getDeal(id: Long): ToDoItem? {
-        return _deals.firstOrNull { it.id == id }
+        return _deals.firstOrNull { it.id == id }?.copy()
     }
 
     fun addDeal(deal: ToDoItem): Boolean {

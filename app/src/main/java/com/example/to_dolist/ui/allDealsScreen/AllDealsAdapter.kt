@@ -1,6 +1,5 @@
 package com.example.to_dolist.ui.allDealsScreen
 
-import android.content.Context
 import android.graphics.Paint.STRIKE_THRU_TEXT_FLAG
 import android.view.LayoutInflater
 import android.view.View
@@ -56,7 +55,7 @@ class AllDealsAdapter(
                     //  В любом случае лучше переделать на два разных Item'а
                     val greyColor = deal.context.resources.getColor(R.color.gray)
                     deal.setTextColor(greyColor)
-                    deal.text = "${item.deal}"
+                    deal.text = "${item.text}"
                     deal.paintFlags = STRIKE_THRU_TEXT_FLAG
                 } else {
                     deal.text = item.getDealWithImportance()

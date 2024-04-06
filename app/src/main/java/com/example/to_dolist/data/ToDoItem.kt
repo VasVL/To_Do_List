@@ -1,11 +1,10 @@
 package com.example.to_dolist.data
 
-import com.example.to_dolist.R
 import java.util.Date
 
 data class ToDoItem(
     val id: Long,
-    var deal: String,
+    var text: String,
     var importance: DealImportance,
     var isDone: Boolean,
     var deadline: Date?,
@@ -19,7 +18,7 @@ data class ToDoItem(
             DealImportance.LOW -> "\u2B07 "
             DealImportance.AVERAGE -> ""
             DealImportance.HIGH -> "\u203C "
-        } + deal
+        } + text
     }
 
     enum class DealImportance {

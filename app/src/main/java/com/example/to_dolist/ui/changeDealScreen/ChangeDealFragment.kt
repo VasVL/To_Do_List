@@ -12,7 +12,6 @@ import androidx.navigation.fragment.navArgs
 import com.example.to_dolist.R
 import com.example.to_dolist.data.ToDoItem
 import com.example.to_dolist.databinding.FragmentChangeDealBinding
-import com.example.to_dolist.util.dateOrNullFromString
 import com.example.to_dolist.util.format
 import com.google.android.material.datepicker.MaterialDatePicker
 import java.util.Date
@@ -44,16 +43,22 @@ class ChangeDealFragment : Fragment() {
 
         with(binding) {
 
-
-
-            val toDoItem = viewModel.deal.value
-            toDoItem?.let { toDo ->
-                whatToDo.setText(toDo.deal)
-                importance.text = when (toDo.importance) {
-                    ToDoItem.DealImportance.HIGH -> { "Высокий" }
-                    ToDoItem.DealImportance.LOW -> { "Низкий" }
-                    ToDoItem.DealImportance.AVERAGE -> { "Нет" }
+            viewModel.deal.observe(viewLifecycleOwner) { toDo ->
+                when (toDo.importance) {
+                    ToDoItem.DealImportance.HIGH -> {
+                        importance.text = "Высокий"
+                        binding.importance.setTextColor(requireContext().resources.getColor(R.color.red))
+                    }
+                    ToDoItem.DealImportance.LOW -> {
+                        importance.text = "Низкий"
+                        binding.importance.setTextColor(requireContext().resources.getColor(R.color.black))
+                    }
+                    ToDoItem.DealImportance.AVERAGE -> {
+                        importance.text = "Нет"
+                        binding.importance.setTextColor(requireContext().resources.getColor(R.color.gray))
+                    }
                 }
+
                 val deadline = toDo.deadline
                 deadlineEnable.isChecked = if (deadline != null) {
                     deadlineDate.text = deadline.format()
@@ -63,51 +68,47 @@ class ChangeDealFragment : Fragment() {
                     deadlineDate.visibility = View.GONE
                     false
                 }
-                deleteText.setTextColor(requireContext().resources.getColor(R.color.red))
-                deleteText.setOnClickListener {
-                    viewModel.delete()
-                    findNavController().navigateUp()
-                }
-                deleteImage.setOnClickListener {
-                    viewModel.delete()
-                    findNavController().navigateUp()
-                }
+            }
 
-                deadlineEnable.setOnCheckedChangeListener { compoundButton, isChecked ->
-                    if (isChecked) {
-                        val datePicker =
-                            MaterialDatePicker.Builder.datePicker()
-                                .setTitleText("Дедлайн")
-                                .setSelection(if (toDo.deadline != null) toDo.deadline!!.time else System.currentTimeMillis())
-                                .build()
-                        datePicker.addOnPositiveButtonClickListener {
-                            deadlineDate.text = Date(it).format() // todo переделать на слушателей вьюмодели
-                            deadlineDate.visibility = View.VISIBLE
-                        }
-                        datePicker.addOnNegativeButtonClickListener { deadlineEnable.isChecked = false }
-                        datePicker.addOnCancelListener { deadlineEnable.isChecked = false }
-                        datePicker.show(childFragmentManager, "tag")
-                    } else {
-                        deadlineDate.visibility = View.GONE
+            val toDoItem = viewModel.deal.value!!
+            whatToDo.setText(toDoItem.text)
+
+            deleteText.setTextColor(requireContext().resources.getColor(R.color.red))
+            deleteText.setOnClickListener {
+                viewModel.delete()
+                findNavController().navigateUp()
+            }
+            deleteImage.setOnClickListener {
+                viewModel.delete()
+                findNavController().navigateUp()
+            }
+
+            // TODO: Возможность вызвать datePicker нажатием на саму дату
+            // TODO: открывается при первом заходе на экран, если есть установленный дедлайн
+            deadlineEnable.setOnCheckedChangeListener { compoundButton, isChecked ->
+                if (isChecked) {
+                    val datePicker =
+                        MaterialDatePicker.Builder.datePicker()
+                            .setTitleText("Дедлайн")
+                            .setSelection(if (toDoItem.deadline != null) toDoItem.deadline!!.time else System.currentTimeMillis())
+                            .build()
+                    datePicker.addOnPositiveButtonClickListener {
+                        viewModel.changeDeal(toDoItem.copy(deadline = Date(it)))
                     }
+                    datePicker.show(childFragmentManager, "tag")
+                } else {
+                    viewModel.changeDeal(toDoItem.copy(deadline = null))
                 }
             }
 
+            // TODO: запихать их в одну общую вьюху побольше
             importance.setOnClickListener { showPopupMenu() }
             importanceText.setOnClickListener { showPopupMenu() }
 
             toolbar.setOnMenuItemClickListener {
                 when (it.itemId) {
                     R.id.itemSave -> {
-                        viewModel.save(
-                            deal = whatToDo.text.toString(),
-                            importance = when (importance.text) {
-                                "Высокий" -> ToDoItem.DealImportance.HIGH
-                                "Низкий" -> ToDoItem.DealImportance.LOW
-                                else -> ToDoItem.DealImportance.AVERAGE
-                            },
-                            deadline = if (deadlineEnable.isChecked) dateOrNullFromString(deadlineDate.text.toString()) else null
-                        )
+                        viewModel.save(whatToDo.text.toString())
                         findNavController().navigateUp()
                         true
                     }
@@ -137,19 +138,18 @@ class ChangeDealFragment : Fragment() {
         val popupMenu = PopupMenu(requireContext(), binding.importance)
         popupMenu.inflate(R.menu.menu_importance)
 
+        val deal = viewModel.deal.value!!
+
         popupMenu.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.itemImportanceAverage -> {
-                    binding.importance.text = "Нет"
-                    binding.importance.setTextColor(requireContext().resources.getColor(R.color.gray))
+                    viewModel.changeDeal(deal.copy(importance = ToDoItem.DealImportance.AVERAGE))
                 }
                 R.id.itemImportanceLow -> {
-                    binding.importance.text = "Низкий"
-                    binding.importance.setTextColor(requireContext().resources.getColor(R.color.black))
+                    viewModel.changeDeal(deal.copy(importance = ToDoItem.DealImportance.LOW))
                 }
                 R.id.itemImportanceHigh -> {
-                    binding.importance.text = "Высокий"
-                    binding.importance.setTextColor(requireContext().resources.getColor(R.color.red))
+                    viewModel.changeDeal(deal.copy(importance = ToDoItem.DealImportance.HIGH))
                 }
             }
             true
