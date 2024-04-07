@@ -4,6 +4,7 @@ import android.graphics.Paint.STRIKE_THRU_TEXT_FLAG
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.ViewCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -15,7 +16,8 @@ import com.example.to_dolist.util.format
 interface ToDoListClickListener {
     fun onDone(toDoItem: ToDoItem)
 
-    fun onChoose(toDoItem: ToDoItem)
+//    fun onChoose(toDoItem: ToDoItem)
+    fun onChoose(view: View)
 }
 
 class AllDealsAdapter(
@@ -27,7 +29,7 @@ class AllDealsAdapter(
         val tag = view.tag as ToDoItem
         when (view.id) {
             R.id.isDone -> clickListener.onDone(tag)
-            else -> clickListener.onChoose(tag)
+            else -> clickListener.onChoose(view)
         }
     }
 
@@ -46,6 +48,8 @@ class AllDealsAdapter(
 
     class DealViewHolder(private val binding: ListItemToDoBinding) : RecyclerView.ViewHolder(binding.root) {
         fun onBind(item: ToDoItem) {
+            /** туть!!! */ ViewCompat.setTransitionName(binding.root, "${item.id}") /** туть!!! */
+
             this.itemView.tag = item
             with(binding) {
                 isDone.tag = item

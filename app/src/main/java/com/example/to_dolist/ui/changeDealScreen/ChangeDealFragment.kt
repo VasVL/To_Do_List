@@ -9,9 +9,11 @@ import android.view.ViewGroup
 import android.widget.PopupMenu
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar.OnMenuItemClickListener
+import androidx.core.view.ViewCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import androidx.transition.TransitionInflater
 import com.example.to_dolist.R
 import com.example.to_dolist.data.ToDoItem
 import com.example.to_dolist.databinding.FragmentChangeDealBinding
@@ -28,6 +30,12 @@ class ChangeDealFragment : Fragment() {
     private val binding get() = _binding!!
 
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        /** туть!!! */ sharedElementEnterTransition = TransitionInflater.from(requireContext()) /** туть!!! */
+            .inflateTransition(R.transition.shared_text)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -38,6 +46,8 @@ class ChangeDealFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        /** туть!!! */ ViewCompat.setTransitionName(binding.whatToDo, "2") /** туть!!! */
 
         with(binding) {
 
@@ -79,7 +89,7 @@ class ChangeDealFragment : Fragment() {
 
             // Можем сохранить изменения/новое дело, либо выйти
             toolbar.setOnMenuItemClickListener(onMenuItemClickListener)
-            toolbar.setNavigationOnClickListener { findNavController().navigateUp() }
+            toolbar.setNavigationOnClickListener { findNavController().popBackStack() }
 
             // От руки рисуем тень под тулбаром
             scrollView.setOnScrollChangeListener(toolbarShadowScrollListener)
