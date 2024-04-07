@@ -6,17 +6,23 @@
     <dimen name="toDoItemDeadlineTextSize">16sp</dimen>
     <dimen name="toDoItemInfoPaddingHorizontal">8dp</dimen>
     <dimen name="toDoItemDeadlineMarginBottom">8dp</dimen>
+
     <dimen name="allDealsTitleMarginStart">60dp</dimen>
     <dimen name="allDealsTitleMarginBottom">54dp</dimen>
     <dimen name="allDealsSubtitleMarginBottom">16dp</dimen>
-    <dimen name="textSizeMid">20sp</dimen>
+
     <dimen name="toolbarMenuMarginBottom">20dp</dimen>
     <dimen name="toolbarMenuMarginEnd">12dp</dimen>
     <dimen name="toolbarShadowHeight">5dp</dimen>
+
     <dimen name="fabMarginEnd">16dp</dimen>
     <dimen name="fabMarginBottom">16dp</dimen>
+
     <dimen name="changeDealMarginHorizontal">16dp</dimen>
     <dimen name="changeDealTopItemMarginVertical">4dp</dimen>
+
     <dimen name="elevationMid">4dp</dimen>
+
+    <dimen name="textSizeMid">20sp</dimen>
     <dimen name="textSizeSmall">16sp</dimen>
 </resources>

@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">To-Do List</string>
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="bigTextSample">Купить что-то где-то зачем-то, но зачем не очень понятно, но точно, чтобы показать как обрезается длинный текст</string>
     <string name="dateSample">29.01.1999</string>
     <string name="highPriority">"\u203C"</string>

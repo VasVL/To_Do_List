@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:layout_marginHorizontal="8dp"
     android:background="@color/white"
-    android:elevation="4dp"
+    android:elevation="@dimen/elevationMid"
     android:paddingStart="@dimen/toDoItemPaddingStart"
     android:paddingEnd="@dimen/toDoItemPaddingEnd">
 
