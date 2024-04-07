@@ -6,4 +6,5 @@
     <string name="highPriority">"\u203C"</string>
     <string name="lowPriority">"\u2B07"</string>
     <string name="viewAll">ViewAll</string>
+    <string name="allDealsTitle">Мои дела</string>
 </resources>

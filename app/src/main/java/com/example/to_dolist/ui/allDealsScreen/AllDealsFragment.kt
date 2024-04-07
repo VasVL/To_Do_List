@@ -31,8 +31,8 @@ class AllDealsFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentAllDealsBinding.inflate(inflater, container, false)
 
+        _binding = FragmentAllDealsBinding.inflate(inflater, container, false)
         _adapter = createAdapter()
 
 
@@ -87,13 +87,16 @@ class AllDealsFragment : Fragment() {
         return binding.root
     }
 
+
     override fun onDestroyView() {
         super.onDestroyView()
         _adapter = null
         _binding = null
     }
 
+
     private val onApplyWindowInsetsListener = OnApplyWindowInsetsListener { v, windowInsets ->
+
         val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
 
         v.updateLayoutParams<ViewGroup.MarginLayoutParams> {
@@ -104,6 +107,7 @@ class AllDealsFragment : Fragment() {
 
         WindowInsetsCompat.CONSUMED
     }
+
 
     private val toolbarShowShadowListener = AppBarLayout.OnOffsetChangedListener { appBarLayout, offset ->
         val collapsingToolbar = binding.collapsingToolbar.height
@@ -118,6 +122,7 @@ class AllDealsFragment : Fragment() {
 
     }
 
+
     private val hideOrShowFABListener = View.OnScrollChangeListener { _, _, y1, _, y2 ->
         if (y1 > y2) {
             binding.addButton.hide()
@@ -125,6 +130,7 @@ class AllDealsFragment : Fragment() {
             binding.addButton.show()
         }
     }
+
 
     private fun createAdapter(): AllDealsAdapter {
         return AllDealsAdapter(

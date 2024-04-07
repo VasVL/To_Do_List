@@ -86,10 +86,12 @@ class ChangeDealFragment : Fragment() {
         }
     }
 
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
+
 
     private val toolbarShadowScrollListener = View.OnScrollChangeListener { _, _, y1, _, _ ->
         binding.toolbarShadow.visibility = if (y1 == 0) {
@@ -98,6 +100,7 @@ class ChangeDealFragment : Fragment() {
             View.VISIBLE
         }
     }
+
 
     private val onMenuItemClickListener: OnMenuItemClickListener = OnMenuItemClickListener {
         when (it.itemId) {
@@ -113,10 +116,12 @@ class ChangeDealFragment : Fragment() {
         }
     }
 
+
     private val toDoItemObserver: Observer<ToDoItem> = Observer{ toDo ->
         setImportance(toDo.importance)
         setDeadline(toDo.deadline)
     }
+
 
     private fun setImportance(importance: ToDoItem.DealImportance) {
         when (importance) {
@@ -135,6 +140,7 @@ class ChangeDealFragment : Fragment() {
         }
     }
 
+
     private fun setDeadline(deadline: Date?) {
         binding.deadlineEnable.isChecked = if (deadline != null) {
             binding.deadlineDate.text = deadline.format()
@@ -145,6 +151,7 @@ class ChangeDealFragment : Fragment() {
             false
         }
     }
+
 
     private val deleteClickListener: OnClickListener = OnClickListener {
         AlertDialog.Builder(requireContext())
@@ -158,6 +165,7 @@ class ChangeDealFragment : Fragment() {
             .show()
     }
 
+
     private fun showDatePicker(toDoItem: ToDoItem) {
         val datePicker =
             MaterialDatePicker.Builder.datePicker()
@@ -169,6 +177,7 @@ class ChangeDealFragment : Fragment() {
         }
         datePicker.show(childFragmentManager, "tag")
     }
+
 
     /**
      * Меню выбора важности дела
