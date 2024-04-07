@@ -7,4 +7,9 @@
     <string name="lowPriority">"\u2B07"</string>
     <string name="viewAll">ViewAll</string>
     <string name="allDealsTitle">Мои дела</string>
+    <string name="changeDealEditTextHint">Что надо сделать...</string>
+    <string name="importance">Важность</string>
+    <string name="importanceAverage">Нет</string>
+    <string name="deadlineText">Сделать до</string>
+    <string name="delete">Удалить</string>
 </resources>

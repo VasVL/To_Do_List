@@ -15,4 +15,8 @@
     <dimen name="toolbarShadowHeight">5dp</dimen>
     <dimen name="fabMarginEnd">16dp</dimen>
     <dimen name="fabMarginBottom">16dp</dimen>
+    <dimen name="changeDealMarginHorizontal">16dp</dimen>
+    <dimen name="changeDealTopItemMarginVertical">4dp</dimen>
+    <dimen name="elevationMid">4dp</dimen>
+    <dimen name="textSizeSmall">16sp</dimen>
 </resources>
