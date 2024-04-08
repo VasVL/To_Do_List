@@ -34,6 +34,8 @@ class ChangeDealFragment : Fragment() {
         super.onCreate(savedInstanceState)
         /** туть!!! */ sharedElementEnterTransition = TransitionInflater.from(requireContext()) /** туть!!! */
             .inflateTransition(R.transition.shared_text)
+        /** туть!!! */ sharedElementReturnTransition = TransitionInflater.from(requireContext()) /** туть!!! */
+            .inflateTransition(R.transition.shared_text)
     }
 
     override fun onCreateView(

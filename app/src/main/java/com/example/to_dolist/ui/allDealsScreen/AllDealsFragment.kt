@@ -12,7 +12,13 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.ItemTouchHelper.END
+import androidx.recyclerview.widget.ItemTouchHelper.LEFT
+import androidx.recyclerview.widget.ItemTouchHelper.RIGHT
+import androidx.recyclerview.widget.ItemTouchHelper.START
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.to_dolist.R
 import com.example.to_dolist.data.ToDoItem
 import com.example.to_dolist.databinding.FragmentAllDealsBinding
@@ -72,6 +78,12 @@ class AllDealsFragment : Fragment() {
             recyclerView.adapter = adapter
             recyclerView.layoutManager = myLayoutManager
             recyclerView.addItemDecoration(ItemDecoration())
+
+            /** Swipe */
+            val touchHelper = ItemTouchHelper(ItemTouchHelperCallback())
+            touchHelper.attachToRecyclerView(recyclerView)
+
+
             recyclerView.setOnScrollChangeListener(hideOrShowFABListener)
 
             // Вручную считаем и рисуем тень под тулбаром
@@ -136,7 +148,6 @@ class AllDealsFragment : Fragment() {
         }
     }
 
-
     private fun createAdapter(): AllDealsAdapter {
         return AllDealsAdapter(
             object : ToDoListClickListener {
@@ -153,5 +164,36 @@ class AllDealsFragment : Fragment() {
 
             }
         )
+    }
+
+    private inner class ItemTouchHelperCallback : ItemTouchHelper.Callback() {
+        override fun getMovementFlags(
+            recyclerView: RecyclerView,
+            viewHolder: RecyclerView.ViewHolder
+        ): Int {
+//            val dragFlags = ItemTouchHelper.UP or ItemTouchHelper.DOWN
+            val swipeFlags = ItemTouchHelper.START or ItemTouchHelper.END
+            return makeMovementFlags(0, swipeFlags)
+        }
+
+        // Newer be called (no dragFlags)
+        override fun onMove(
+            recyclerView: RecyclerView,
+            viewHolder: RecyclerView.ViewHolder,
+            target: RecyclerView.ViewHolder
+        ): Boolean {
+            return false
+        }
+
+        override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+            val index = viewHolder.adapterPosition
+            val item = viewModel.deals.value?.get(index)
+            if (item != null) {
+                when (direction) {
+                    START -> viewModel.onDelete(item)
+                    END -> viewModel.onDone(item)
+                }
+            }
+        }
     }
 }

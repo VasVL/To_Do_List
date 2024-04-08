@@ -9,7 +9,7 @@ class ToDoItemRepository {
 
     private val _deals: List<ToDoItem>
         // TODO: хуита
-        get() = DB._deals.toList()
+        get() = DB._deals.sortedBy { it.deadline }
 
     private val callbacks = mutableListOf<OnChangeToDoListCallback>()
 

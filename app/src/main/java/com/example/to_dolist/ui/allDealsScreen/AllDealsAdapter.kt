@@ -20,6 +20,8 @@ interface ToDoListClickListener {
     fun onChoose(view: View)
 }
 
+
+
 class AllDealsAdapter(
     private val clickListener: ToDoListClickListener
 ) : ListAdapter<ToDoItem, AllDealsAdapter.DealViewHolder>(ToDoItemCallback()),
