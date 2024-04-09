@@ -28,9 +28,9 @@ class AllDealsAdapter(
     View.OnClickListener {
 
     override fun onClick(view: View) {
-        val tag = view.tag as ToDoItem
+        val tag = view.tag as ItemTag
         when (view.id) {
-            R.id.isDone -> clickListener.onDone(tag)
+            R.id.isDone -> clickListener.onDone(tag.item)
             else -> clickListener.onChoose(view)
         }
     }
@@ -49,12 +49,15 @@ class AllDealsAdapter(
     }
 
     class DealViewHolder(private val binding: ListItemToDoBinding) : RecyclerView.ViewHolder(binding.root) {
+
+        val item = binding.item
+        val root = binding.root
         fun onBind(item: ToDoItem) {
             /** туть!!! */ ViewCompat.setTransitionName(binding.root, "${item.id}") /** туть!!! */
 
-            this.itemView.tag = item
+            this.itemView.tag = ItemTag(item)
             with(binding) {
-                isDone.tag = item
+                isDone.tag = ItemTag(item)
                 isDone.isChecked = item.isDone
                 if (item.isDone) {
                     val greyColor = deal.context.resources.getColor(R.color.gray)
@@ -80,6 +83,8 @@ class AllDealsAdapter(
         override fun areContentsTheSame(oldItem: ToDoItem, newItem: ToDoItem): Boolean {
             return oldItem == newItem
         }
-
     }
+
+    class ItemTag(val item: ToDoItem, var isSwipeStart: Boolean = false, var isSwipeEnd: Boolean = true)
 }
+

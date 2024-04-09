@@ -5,71 +5,81 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginHorizontal="8dp"
-    android:background="@color/white"
     android:elevation="@dimen/elevationMid"
-    android:paddingStart="@dimen/toDoItemPaddingStart"
-    android:paddingEnd="@dimen/toDoItemPaddingEnd">
+    android:background="@color/white"
+    >
 
-    <CheckBox
-        android:id="@+id/isDone"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/deal"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/item"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:paddingStart="@dimen/toDoItemPaddingStart"
+        android:paddingEnd="@dimen/toDoItemPaddingEnd"
+        >
 
-    <TextView
-        android:id="@+id/deal"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:ellipsize="end"
-        android:justificationMode="inter_word"
-        android:maxLines="3"
-        android:textColor="@color/black"
-        android:textSize="@dimen/toDoItemTextSize"
-        app:layout_constraintEnd_toStartOf="@+id/info"
-        app:layout_constraintStart_toEndOf="@+id/isDone"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="@string/bigTextSample" />
+        <CheckBox
+            android:id="@+id/isDone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/deal"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0" />
 
-    <TextView
-        android:id="@+id/deadline"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:ellipsize="end"
-        android:lines="1"
-        android:textSize="@dimen/toDoItemDeadlineTextSize"
-        app:layout_constraintEnd_toEndOf="@id/deal"
-        app:layout_constraintStart_toStartOf="@+id/deal"
-        app:layout_constraintTop_toBottomOf="@id/deal"
-        tools:text="@string/dateSample" />
+        <TextView
+            android:id="@+id/deal"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:ellipsize="end"
+            android:justificationMode="inter_word"
+            android:maxLines="3"
+            android:textColor="@color/black"
+            android:textSize="@dimen/toDoItemTextSize"
+            app:layout_constraintEnd_toStartOf="@+id/info"
+            app:layout_constraintStart_toEndOf="@+id/isDone"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="@string/bigTextSample" />
 
-    <ImageView
-        android:id="@+id/info"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingHorizontal="@dimen/toDoItemInfoPaddingHorizontal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@id/deal"
-        app:layout_constraintTop_toTopOf="@id/deal"
-        app:layout_constraintVertical_bias="0.0"
-        app:srcCompat="@drawable/baseline_info_outline_24" />
+        <TextView
+            android:id="@+id/deadline"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:lines="1"
+            android:textSize="@dimen/toDoItemDeadlineTextSize"
+            app:layout_constraintEnd_toEndOf="@id/deal"
+            app:layout_constraintStart_toStartOf="@+id/deal"
+            app:layout_constraintTop_toBottomOf="@id/deal"
+            tools:text="@string/dateSample" />
 
-    <androidx.constraintlayout.widget.Barrier
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:barrierDirection="bottom"
-        app:constraint_referenced_ids="deadline,isDone,info" />
+        <ImageView
+            android:id="@+id/info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="@dimen/toDoItemInfoPaddingHorizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toEndOf="@id/deal"
+            app:layout_constraintTop_toTopOf="@id/deal"
+            app:layout_constraintVertical_bias="0.0"
+            app:srcCompat="@drawable/baseline_info_outline_24" />
 
-    <Space
-        android:layout_width="wrap_content"
-        android:layout_height="8dp"
-        app:layout_constraintTop_toBottomOf="@id/deadline" />
+        <androidx.constraintlayout.widget.Barrier
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:barrierDirection="bottom"
+            app:constraint_referenced_ids="deadline,isDone,info" />
+
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="8dp"
+            app:layout_constraintTop_toBottomOf="@id/deadline" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

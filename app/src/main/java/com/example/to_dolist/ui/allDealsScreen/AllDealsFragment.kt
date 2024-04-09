@@ -1,6 +1,9 @@
 package com.example.to_dolist.ui.allDealsScreen
 
+import android.graphics.Canvas
+import android.graphics.Outline
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,9 +16,8 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.ItemTouchHelper.ACTION_STATE_SWIPE
 import androidx.recyclerview.widget.ItemTouchHelper.END
-import androidx.recyclerview.widget.ItemTouchHelper.LEFT
-import androidx.recyclerview.widget.ItemTouchHelper.RIGHT
 import androidx.recyclerview.widget.ItemTouchHelper.START
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -23,6 +25,7 @@ import com.example.to_dolist.R
 import com.example.to_dolist.data.ToDoItem
 import com.example.to_dolist.databinding.FragmentAllDealsBinding
 import com.google.android.material.appbar.AppBarLayout
+import kotlin.math.sign
 
 class AllDealsFragment : Fragment() {
 
@@ -158,7 +161,7 @@ class AllDealsFragment : Fragment() {
                 override fun onChoose(view: View) {
                     /** туть!!! */ val extras = FragmentNavigatorExtras(view to "2") /** туть!!! */
 //                    val directions = AllDealsFragmentDirections.actionAllDealsFragmentToChangeDealFragment(toDoItem)
-                    val directions = AllDealsFragmentDirections.actionAllDealsFragmentToChangeDealFragment(view.tag as ToDoItem)
+                    val directions = AllDealsFragmentDirections.actionAllDealsFragmentToChangeDealFragment((view.tag as AllDealsAdapter.ItemTag).item)
                     findNavController().navigate(directions, extras)
                 }
 
@@ -167,16 +170,24 @@ class AllDealsFragment : Fragment() {
     }
 
     private inner class ItemTouchHelperCallback : ItemTouchHelper.Callback() {
+        override fun isItemViewSwipeEnabled(): Boolean {
+            return true
+        }
+
+        override fun isLongPressDragEnabled(): Boolean {
+            return false
+        }
+
         override fun getMovementFlags(
             recyclerView: RecyclerView,
             viewHolder: RecyclerView.ViewHolder
         ): Int {
-//            val dragFlags = ItemTouchHelper.UP or ItemTouchHelper.DOWN
+            val dragFlags = 0//ItemTouchHelper.UP or ItemTouchHelper.DOWN
             val swipeFlags = ItemTouchHelper.START or ItemTouchHelper.END
-            return makeMovementFlags(0, swipeFlags)
+            return makeMovementFlags(dragFlags, swipeFlags)
         }
 
-        // Newer be called (no dragFlags)
+        // Never be called
         override fun onMove(
             recyclerView: RecyclerView,
             viewHolder: RecyclerView.ViewHolder,
@@ -193,6 +204,71 @@ class AllDealsFragment : Fragment() {
                     START -> viewModel.onDelete(item)
                     END -> viewModel.onDone(item)
                 }
+            }
+        }
+
+
+        override fun onSelectedChanged(viewHolder: RecyclerView.ViewHolder?, actionState: Int) {
+            if (viewHolder == null) return
+
+            if (actionState == ACTION_STATE_SWIPE) {
+                (viewHolder.itemView.tag as AllDealsAdapter.ItemTag).isSwipeStart = true
+                (viewHolder.itemView.tag as AllDealsAdapter.ItemTag).isSwipeEnd = false
+
+                getDefaultUIUtil().onSelected((viewHolder as AllDealsAdapter.DealViewHolder).item)
+            } else {
+                super.onSelectedChanged(viewHolder, actionState)
+            }
+        }
+
+        override fun clearView(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder) {
+           getDefaultUIUtil().clearView((viewHolder as AllDealsAdapter.DealViewHolder?)?.item)
+            (viewHolder.itemView.tag as AllDealsAdapter.ItemTag).isSwipeEnd = true
+//            super.clearView(recyclerView, viewHolder)
+        }
+
+        override fun onChildDraw(
+            c: Canvas,
+            recyclerView: RecyclerView,
+            viewHolder: RecyclerView.ViewHolder,
+            dX: Float,
+            dY: Float,
+            actionState: Int,
+            isCurrentlyActive: Boolean
+        ) {
+            if (actionState != ACTION_STATE_SWIPE) {
+                super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
+                return
+            }
+
+            if ((viewHolder.itemView.tag as AllDealsAdapter.ItemTag).isSwipeStart) {
+                when (dX.sign) {
+                    -1.0f -> {
+                        (viewHolder as AllDealsAdapter.DealViewHolder).root.background = resources.getDrawable(R.drawable.swipe_delete_background)
+                        (viewHolder.itemView.tag as AllDealsAdapter.ItemTag).isSwipeStart = false
+                    }
+                    1.0f -> {
+                        (viewHolder as AllDealsAdapter.DealViewHolder).root.background = resources.getDrawable(R.drawable.swipe_done_background)
+                        (viewHolder.itemView.tag as AllDealsAdapter.ItemTag).isSwipeStart = false
+                    }
+                }
+            }
+            getDefaultUIUtil().onDraw(c, recyclerView, (viewHolder as AllDealsAdapter.DealViewHolder?)?.item, dX, dY, actionState, isCurrentlyActive)
+        }
+
+        override fun onChildDrawOver(
+            c: Canvas,
+            recyclerView: RecyclerView,
+            viewHolder: RecyclerView.ViewHolder?,
+            dX: Float,
+            dY: Float,
+            actionState: Int,
+            isCurrentlyActive: Boolean
+        ) {
+            if (actionState == ACTION_STATE_SWIPE) {
+                getDefaultUIUtil().onDrawOver(c, recyclerView, (viewHolder as AllDealsAdapter.DealViewHolder?)?.item, dX, dY, actionState, isCurrentlyActive)
+            } else {
+                super.onChildDrawOver(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
             }
         }
     }
