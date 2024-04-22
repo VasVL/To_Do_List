@@ -85,6 +85,6 @@ class AllDealsAdapter(
         }
     }
 
-    class ItemTag(val item: ToDoItem, var isSwipeStart: Boolean = false, var isSwipeEnd: Boolean = true)
+    class ItemTag(val item: ToDoItem, var isNotSwiping: Boolean = true)
 }
 

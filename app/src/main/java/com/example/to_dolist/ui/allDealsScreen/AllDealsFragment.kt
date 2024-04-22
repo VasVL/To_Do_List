@@ -1,9 +1,7 @@
 package com.example.to_dolist.ui.allDealsScreen
 
 import android.graphics.Canvas
-import android.graphics.Outline
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -212,8 +210,7 @@ class AllDealsFragment : Fragment() {
             if (viewHolder == null) return
 
             if (actionState == ACTION_STATE_SWIPE) {
-                (viewHolder.itemView.tag as AllDealsAdapter.ItemTag).isSwipeStart = true
-                (viewHolder.itemView.tag as AllDealsAdapter.ItemTag).isSwipeEnd = false
+                (viewHolder.itemView.tag as AllDealsAdapter.ItemTag).isNotSwiping = false
 
                 getDefaultUIUtil().onSelected((viewHolder as AllDealsAdapter.DealViewHolder).item)
             } else {
@@ -223,10 +220,11 @@ class AllDealsFragment : Fragment() {
 
         override fun clearView(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder) {
            getDefaultUIUtil().clearView((viewHolder as AllDealsAdapter.DealViewHolder?)?.item)
-            (viewHolder.itemView.tag as AllDealsAdapter.ItemTag).isSwipeEnd = true
+            (viewHolder.itemView.tag as AllDealsAdapter.ItemTag).isNotSwiping = true
 //            super.clearView(recyclerView, viewHolder)
         }
 
+        private var prevDxSign = 0.0f
         override fun onChildDraw(
             c: Canvas,
             recyclerView: RecyclerView,
@@ -241,15 +239,14 @@ class AllDealsFragment : Fragment() {
                 return
             }
 
-            if ((viewHolder.itemView.tag as AllDealsAdapter.ItemTag).isSwipeStart) {
+            if (prevDxSign != dX.sign) {
+                prevDxSign = dX.sign
                 when (dX.sign) {
                     -1.0f -> {
                         (viewHolder as AllDealsAdapter.DealViewHolder).root.background = resources.getDrawable(R.drawable.swipe_delete_background)
-                        (viewHolder.itemView.tag as AllDealsAdapter.ItemTag).isSwipeStart = false
                     }
                     1.0f -> {
                         (viewHolder as AllDealsAdapter.DealViewHolder).root.background = resources.getDrawable(R.drawable.swipe_done_background)
-                        (viewHolder.itemView.tag as AllDealsAdapter.ItemTag).isSwipeStart = false
                     }
                 }
             }

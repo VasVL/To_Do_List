@@ -1,8 +1,6 @@
 package com.example.to_dolist.ui.allDealsScreen
 
 import android.graphics.Canvas
-import android.graphics.Color
-import android.graphics.Paint
 import android.graphics.Rect
 import android.view.View
 import android.view.ViewGroup
@@ -28,13 +26,13 @@ class ItemDecoration : RecyclerView.ItemDecoration() {
             val index = parent.getChildAdapterPosition(view)
             (view as ViewGroup).children.first().background = when (index) {
                 0 -> {
-                    if ((view.tag as AllDealsAdapter.ItemTag).isSwipeEnd) {
+                    if ((view.tag as AllDealsAdapter.ItemTag).isNotSwiping) {
                         view.background = AppCompatResources.getDrawable(parent.context, R.drawable.layout_recycle_item_top)
                     }
                     AppCompatResources.getDrawable(parent.context, R.drawable.layout_recycle_item_top)
                 }
                 last - 1 -> {
-                    if ((view.tag as AllDealsAdapter.ItemTag).isSwipeEnd) {
+                    if ((view.tag as AllDealsAdapter.ItemTag).isNotSwiping) {
                         view.background = AppCompatResources.getDrawable(
                             parent.context,
                             R.drawable.layout_recycle_item_bottom
@@ -43,7 +41,7 @@ class ItemDecoration : RecyclerView.ItemDecoration() {
                     AppCompatResources.getDrawable(parent.context, R.drawable.layout_recycle_item_bottom)
                 }
                 else -> {
-                    if ((view.tag as AllDealsAdapter.ItemTag).isSwipeEnd) {
+                    if ((view.tag as AllDealsAdapter.ItemTag).isNotSwiping) {
                         view.background = AppCompatResources.getDrawable(
                             parent.context,
                             R.drawable.layout_recycle_item_mid
