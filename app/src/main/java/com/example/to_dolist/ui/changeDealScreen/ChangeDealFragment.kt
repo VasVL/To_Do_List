@@ -138,15 +138,15 @@ class ChangeDealFragment : Fragment() {
     private fun setImportance(importance: ToDoItem.DealImportance) {
         when (importance) {
             ToDoItem.DealImportance.HIGH -> {
-                binding.importance.text = "Высокий"
+                binding.importance.text = getString(R.string.higthPrioriy)
                 binding.importance.setTextColor(requireContext().resources.getColor(R.color.red))
             }
             ToDoItem.DealImportance.LOW -> {
-                binding.importance.text = "Низкий"
+                binding.importance.text = getString(R.string.lowPrioriy)
                 binding.importance.setTextColor(requireContext().resources.getColor(R.color.black))
             }
             ToDoItem.DealImportance.AVERAGE -> {
-                binding.importance.text = "Нет"
+                binding.importance.text = getString(R.string.noPrioriy)
                 binding.importance.setTextColor(requireContext().resources.getColor(R.color.gray))
             }
         }
@@ -167,12 +167,12 @@ class ChangeDealFragment : Fragment() {
 
     private val deleteClickListener: OnClickListener = OnClickListener {
         AlertDialog.Builder(requireContext())
-            .setTitle("Удалить дело?")
-            .setPositiveButton("Удалить") { _, _ ->
+            .setTitle(getString(R.string.deleteDeal))
+            .setPositiveButton(getString(R.string.delete)) { _, _ ->
                 viewModel.delete()
                 findNavController().navigateUp()
             }
-            .setNegativeButton("NOOO!!!") { _, _ -> }
+            .setNegativeButton(getString(R.string.nooo)) { _, _ -> }
             .create()
             .show()
     }
@@ -181,7 +181,7 @@ class ChangeDealFragment : Fragment() {
     private fun showDatePicker(toDoItem: ToDoItem) {
         val datePicker =
             MaterialDatePicker.Builder.datePicker()
-                .setTitleText("Дедлайн")
+                .setTitleText(getString(R.string.deadline))
                 .setSelection(if (toDoItem.deadline != null) toDoItem.deadline!!.time else System.currentTimeMillis())
                 .build()
         datePicker.addOnPositiveButtonClickListener {

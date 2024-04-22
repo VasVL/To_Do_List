@@ -65,7 +65,7 @@ class AllDealsFragment : Fragment() {
         }
 
         viewModel.doneCount.observe(viewLifecycleOwner) { count ->
-            count?.let{ binding.textDone.text = "Выполнено - $count" }
+            count?.let{ binding.textDone.text = getString(R.string.doneCount, count) }
         }
 
         // TODO: Баг - если пометить как выполненный элемент из начала списка, а потом нажать "показать выполненные",

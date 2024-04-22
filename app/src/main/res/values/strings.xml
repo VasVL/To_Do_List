@@ -11,4 +11,15 @@
     <string name="importanceAverage">Нет</string>
     <string name="deadlineText">Сделать до</string>
     <string name="delete">Удалить</string>
+
+    <string name="doneCount">Выполнено - %1$d</string>
+    
+    <string name="higthPrioriy">Высокий</string>
+    <string name="lowPrioriy">Низкий</string>
+    <string name="noPrioriy">Нет</string>
+
+    <string name="deleteDeal">Удалить дело?</string>
+    <string name="nooo">NOOO!!!</string>
+    <string name="deadline">Дедлайн</string>
+
 </resources>
