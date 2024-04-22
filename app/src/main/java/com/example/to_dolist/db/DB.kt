@@ -1,6 +1,9 @@
 package com.example.to_dolist.db
 
 import com.example.to_dolist.data.ToDoItem
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.withContext
 import java.util.Date
 import java.util.GregorianCalendar
 
@@ -30,19 +33,23 @@ class DB {
             ToDoItem(20, "qwertyuiqwertyui", ToDoItem.DealImportance.HIGH, false, Date(2022 - 1900, 3, 1), null),
         )
 
-        fun addDeal(deal: ToDoItem): Boolean {
-            return _deals.add(deal.copy(id = (_deals.size + 1).toLong()))
+        suspend fun addDeal(deal: ToDoItem): Boolean = withContext(Dispatchers.IO){
+            return@withContext _deals.add(deal.copy(id = (_deals.size + 1).toLong()))
         }
 
-        fun changeDeal(deal: ToDoItem): Boolean {
+        suspend fun changeDeal(deal: ToDoItem): Boolean = withContext(Dispatchers.IO) {
+            // todo Что делать в случае большой задержки?
+            //  Показывать заглушку по типу "элемент удаляется/изменяется"
+            //  Paging Library?
+            delay(2000)
             val index = _deals.indexOfFirst { it.id == deal.id }
-            if (index == -1) return false
+            if (index == -1) return@withContext false
             _deals[index] = deal
-            return true
+            return@withContext true
         }
 
-        fun deleteDeal(id: Long): Boolean {
-            return _deals.removeAll { it.id == id }
+        suspend fun deleteDeal(id: Long): Boolean = withContext(Dispatchers.IO){
+            return@withContext _deals.removeAll { it.id == id }
         }
     }
 }

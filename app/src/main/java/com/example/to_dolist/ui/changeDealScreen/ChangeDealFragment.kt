@@ -55,6 +55,9 @@ class ChangeDealFragment : Fragment() {
 
             // Смотрим вьюмодель - обновляем стейт виджетов
             viewModel.deal.observe(viewLifecycleOwner, toDoItemObserver)
+            viewModel.isWorkDone.observe(viewLifecycleOwner) {
+                if (it) findNavController().navigateUp()
+            }
 
             val toDoItem = viewModel.deal.value!!
             // EditText сам хранит свой стейт, его в обсервере не смотрим
@@ -119,7 +122,6 @@ class ChangeDealFragment : Fragment() {
             R.id.itemSave -> {
                 val dealText = binding.whatToDo.text.toString()
                 viewModel.save(dealText)
-                findNavController().navigateUp()
                 true
             }
             else ->{
@@ -170,7 +172,6 @@ class ChangeDealFragment : Fragment() {
             .setTitle(getString(R.string.deleteDeal))
             .setPositiveButton(getString(R.string.delete)) { _, _ ->
                 viewModel.delete()
-                findNavController().navigateUp()
             }
             .setNegativeButton(getString(R.string.nooo)) { _, _ -> }
             .create()

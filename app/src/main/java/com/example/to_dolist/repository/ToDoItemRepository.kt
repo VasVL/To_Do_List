@@ -2,10 +2,17 @@ package com.example.to_dolist.repository
 
 import com.example.to_dolist.db.DB
 import com.example.to_dolist.data.ToDoItem
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.withContext
+import kotlin.coroutines.coroutineContext
 
 typealias OnChangeToDoListCallback = (List<ToDoItem>) -> Unit
 
-class ToDoItemRepository {
+class ToDoItemRepository(
+    val dispatcherIO: CoroutineDispatcher
+) {
 
     private val _deals: List<ToDoItem>
         // TODO: хуита
@@ -13,20 +20,30 @@ class ToDoItemRepository {
 
     private val callbacks = mutableListOf<OnChangeToDoListCallback>()
 
-    fun addDeal(deal: ToDoItem): Boolean {
-        val isOk = DB.addDeal(deal)
+    suspend fun addDeal(deal: ToDoItem): Boolean {
+        var isOk = false
+        // Здесь не использую = withContext(...) для того, чтоб можно было спокойно вызывать из main потока
+        withContext(dispatcherIO) {
+            isOk = DB.addDeal(deal)
+        }
         if (isOk) notifyToDoListChanged()
         return isOk
     }
 
-    fun changeDeal(deal: ToDoItem): Boolean {
-        val isOk = DB.changeDeal(deal)
+    suspend fun changeDeal(deal: ToDoItem): Boolean {
+        var isOk = false
+        withContext(dispatcherIO) {
+            isOk = DB.changeDeal(deal)
+        }
         if (isOk) notifyToDoListChanged()
         return isOk
     }
 
-    fun deleteDeal(id: Long): Boolean {
-        val isOk =  DB.deleteDeal(id)
+    suspend fun deleteDeal(id: Long): Boolean {
+        var isOk = false
+        withContext(dispatcherIO) {
+            isOk = DB.deleteDeal(id)
+        }
         if (isOk) notifyToDoListChanged()
         return isOk
     }
