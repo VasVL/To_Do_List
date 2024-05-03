@@ -11,10 +11,9 @@ data class ToDoItem(
     var importance: DealImportance,
     var isDone: Boolean,
     var deadline: Date?,
-    var changeDate: Date?,
 ) : Parcelable {
 
-    constructor() : this(-1, "", DealImportance.AVERAGE, false, null, null)
+    constructor() : this(0, "", DealImportance.AVERAGE, false, null)
 
     fun getDealWithImportance(): String {
         return when(importance){

@@ -1,32 +1,30 @@
 package com.example.to_dolist.repository
 
-import com.example.to_dolist.db.DB
 import com.example.to_dolist.data.ToDoItem
+import com.example.to_dolist.db.dao.ToDoItemsDao
+import com.example.to_dolist.db.entity.ToDoItemEntity
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 
 class ToDoItemRepository(
     private val dispatcherIO: CoroutineDispatcher,
-    private val externalScope: CoroutineScope
+    private val externalScope: CoroutineScope,
+    private val toDoItemsDao: ToDoItemsDao,
 ) {
-    val db: DB = DB()
 
     // todo мб сделать доступ к кэшу через лок (пока кэш вообще не нужен)
     //private var catchList: List<ToDoItem> = listOf()
 
     init {
         externalScope.launch(dispatcherIO) {
-            db.deals.collect { list ->
-                _deals.emit(list)
-                //catchList = list
+            toDoItemsDao.getAll().collect { list ->
+                _deals.emit(list.map { it.toToDoItem() })
             }
         }
     }
@@ -38,28 +36,21 @@ class ToDoItemRepository(
     )
     val deals: Flow<List<ToDoItem>> get() = _deals
 
-    suspend fun addDeal(deal: ToDoItem): Boolean {
-        var isOk = false
-        // Здесь не использую = withContext(...) для того, чтоб можно было спокойно вызывать из main потока
+    suspend fun addDeal(deal: ToDoItem) {
         withContext(dispatcherIO) {
-            isOk = db.addDeal(deal)
+            toDoItemsDao.insert(ToDoItemEntity.fromToDoItem(deal))
         }
-        return isOk
     }
 
-    suspend fun changeDeal(deal: ToDoItem): Boolean {
-        var isOk = false
+    suspend fun changeDeal(deal: ToDoItem) {
         withContext(dispatcherIO) {
-            isOk = db.changeDeal(deal)
+            toDoItemsDao.update(ToDoItemEntity.fromToDoItem(deal))
         }
-        return isOk
     }
 
-    suspend fun deleteDeal(id: Long): Boolean {
-        var isOk = false
+    suspend fun deleteDeal(deal: ToDoItem) {
         withContext(dispatcherIO) {
-            isOk = db.deleteDeal(id)
+            toDoItemsDao.delete(ToDoItemEntity.fromToDoItem(deal))
         }
-        return isOk
     }
 }

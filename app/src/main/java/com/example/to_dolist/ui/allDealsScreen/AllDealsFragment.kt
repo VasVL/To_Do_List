@@ -100,10 +100,12 @@ class AllDealsFragment : Fragment() {
 
             /** Это, чтоб SystemBar не перкрывал fab
              * Только на моём телефоне не работает чё-то... */
-            ViewCompat.setOnApplyWindowInsetsListener(addButton, onApplyWindowInsetsListener)
+            ViewCompat.setOnApplyWindowInsetsListener(rootLayout, onApplyWindowInsetsListener)
 
             addButton.setOnClickListener {
-                val directions = AllDealsFragmentDirections.actionAllDealsFragmentToChangeDealFragment(ToDoItem())
+                val directions = AllDealsFragmentDirections.actionAllDealsFragmentToChangeDealFragment(
+                    ToDoItem()
+                )
                 findNavController().navigate(directions)
             }
 
@@ -125,13 +127,14 @@ class AllDealsFragment : Fragment() {
 
         val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
 
-        v.updateLayoutParams<ViewGroup.MarginLayoutParams> {
-            bottomMargin = insets.bottom
+        binding.addButton.updateLayoutParams<ViewGroup.MarginLayoutParams> {
+
+            bottomMargin = insets.bottom + (resources.displayMetrics.density * 16.0f).toInt()
             leftMargin = insets.left
-            rightMargin = insets.right
+            rightMargin = insets.right + (resources.displayMetrics.density * 16.0f).toInt()
         }
 
-        WindowInsetsCompat.CONSUMED
+        windowInsets
     }
 
 

@@ -33,7 +33,6 @@ class AllDealsAdapter(
     View.OnClickListener {
 
     fun filterAndSubmitList(list: List<ToDoItem>, isDoneShowed: Boolean) {
-        // todo что за хуйня?
         CoroutineScope(SupervisorJob() + Dispatchers.Default).launch {
             val newList = if (isDoneShowed) {
                 list.sortedBy { it.deadline }

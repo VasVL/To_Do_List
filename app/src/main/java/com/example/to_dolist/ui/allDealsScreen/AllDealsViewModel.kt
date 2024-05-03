@@ -48,7 +48,7 @@ class AllDealsViewModel(
 
     fun onDelete(toDoItem: ToDoItem) {
         viewModelScope.launch {
-            toDoItemRepository.deleteDeal(toDoItem.id)
+            toDoItemRepository.deleteDeal(toDoItem)
         }
     }
 

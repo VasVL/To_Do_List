@@ -34,7 +34,7 @@ class ChangeDealViewModel(
 
     fun save(text: String) {
         viewModelScope.launch {
-            if (deal.value!!.id != -1L) {
+            if (deal.value!!.id != 0L) {
                 toDoItemRepository.changeDeal(deal.value!!.copy(text = text))
             } else {
                 toDoItemRepository.addDeal(deal.value!!.copy(text = text))
@@ -45,7 +45,7 @@ class ChangeDealViewModel(
 
     fun delete() {
         viewModelScope.launch {
-            toDoItemRepository.deleteDeal(deal.value!!.id)
+            toDoItemRepository.deleteDeal(deal.value!!)
             _isWorkDone.value = true
         }
     }
