@@ -172,7 +172,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/divider2"
                     app:layout_constraintBottom_toTopOf="@id/barrier2"
-                    android:src="@drawable/baseline_delete_24"
+                    android:src="@drawable/baseline_delete_red_24"
                     android:layout_margin="20dp"/>
 
                 <TextView

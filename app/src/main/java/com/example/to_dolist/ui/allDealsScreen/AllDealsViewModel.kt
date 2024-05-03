@@ -11,7 +11,6 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.to_dolist.Repo
 import com.example.to_dolist.data.ToDoItem
-import com.example.to_dolist.repository.OnChangeToDoListCallback
 import com.example.to_dolist.repository.ToDoItemRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -22,42 +21,22 @@ class AllDealsViewModel(
     private val savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
 
-    private val _deals = MutableLiveData<List<ToDoItem>>()
+    private val _deals = MutableLiveData<List<ToDoItem>>(listOf())
 
     val deals: LiveData<List<ToDoItem>> get() = _deals
-
-    private val dealsChangeCallback: OnChangeToDoListCallback = { list ->
-        viewModelScope.launch {
-            if (isDoneShowed.value == true) _deals.value = list
-            else {
-                // todo Возможно лучше вынимать все дела, а фильтровать во фрагменте обозревая isDoneShowed
-                var filtered = listOf<ToDoItem>()
-                withContext(Dispatchers.Default) {
-                    filtered = list.filter { !it.isDone }
-                }
-                _deals.value = filtered
-            }
-        }
-    }
-
-    private val dealsCountChangeCallback: OnChangeToDoListCallback = { list ->
-        viewModelScope.launch {
-            doneCount.value = withContext(Dispatchers.Default) { list.count { it.isDone } }
-        }
-
-    }
-
-    private val callbacks = mutableListOf<OnChangeToDoListCallback>()
 
     // TODO: Можно вынести в настройки
     val isDoneShowed = savedStateHandle.getLiveData<Boolean>(IS_DONE_SHOWED, false)
     val doneCount = savedStateHandle.getLiveData<Int>(DONE_COUNT)
 
     init {
-        callbacks.add(dealsChangeCallback)
-        callbacks.add(dealsCountChangeCallback)
-        callbacks.forEach {
-            toDoItemRepository.registerOnChangeToDoList(it)
+        viewModelScope.launch {
+            toDoItemRepository.deals.collect { list ->
+                _deals.value = list
+                withContext(Dispatchers.Default) {
+                    doneCount.postValue(list.count { it.isDone })
+                }
+            }
         }
     }
 
@@ -75,15 +54,8 @@ class AllDealsViewModel(
 
     fun showOrHideDone() {
         isDoneShowed.value = !isDoneShowed.value!!
-        toDoItemRepository.filterDeals() // todo Тоже не нравится мне как сделано см. dealsChangeCallback
     }
 
-    override fun onCleared() {
-        super.onCleared()
-        callbacks.forEach {
-            toDoItemRepository.unregisterOnChangeToDoList(it)
-        }
-    }
 
     companion object {
         val Factory: ViewModelProvider.Factory = viewModelFactory {

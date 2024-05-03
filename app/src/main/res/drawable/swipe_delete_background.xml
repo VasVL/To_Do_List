@@ -8,7 +8,7 @@
     </item>
 
     <item android:end="16dp"
-        android:drawable="@drawable/baseline_delete_24"
+        android:drawable="@drawable/baseline_delete_white_24"
         android:gravity="end|center"
         />
 

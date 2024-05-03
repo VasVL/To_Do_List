@@ -3,65 +3,63 @@ package com.example.to_dolist.repository
 import com.example.to_dolist.db.DB
 import com.example.to_dolist.data.ToDoItem
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.channels.BufferOverflow
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import kotlin.coroutines.coroutineContext
 
-typealias OnChangeToDoListCallback = (List<ToDoItem>) -> Unit
 
 class ToDoItemRepository(
-    val dispatcherIO: CoroutineDispatcher
+    private val dispatcherIO: CoroutineDispatcher,
+    private val externalScope: CoroutineScope
 ) {
+    val db: DB = DB()
 
-    private val _deals: List<ToDoItem>
-        // TODO: хуита
-        get() = DB._deals.sortedBy { it.deadline }
+    // todo мб сделать доступ к кэшу через лок (пока кэш вообще не нужен)
+    //private var catchList: List<ToDoItem> = listOf()
 
-    private val callbacks = mutableListOf<OnChangeToDoListCallback>()
+    init {
+        externalScope.launch(dispatcherIO) {
+            db.deals.collect { list ->
+                _deals.emit(list)
+                //catchList = list
+            }
+        }
+    }
+
+    private val _deals: MutableSharedFlow<List<ToDoItem>> = MutableSharedFlow (
+        replay = 1,
+        extraBufferCapacity = 1,
+        onBufferOverflow = BufferOverflow.DROP_OLDEST,
+    )
+    val deals: Flow<List<ToDoItem>> get() = _deals
 
     suspend fun addDeal(deal: ToDoItem): Boolean {
         var isOk = false
         // Здесь не использую = withContext(...) для того, чтоб можно было спокойно вызывать из main потока
         withContext(dispatcherIO) {
-            isOk = DB.addDeal(deal)
+            isOk = db.addDeal(deal)
         }
-        if (isOk) notifyToDoListChanged()
         return isOk
     }
 
     suspend fun changeDeal(deal: ToDoItem): Boolean {
         var isOk = false
         withContext(dispatcherIO) {
-            isOk = DB.changeDeal(deal)
+            isOk = db.changeDeal(deal)
         }
-        if (isOk) notifyToDoListChanged()
         return isOk
     }
 
     suspend fun deleteDeal(id: Long): Boolean {
         var isOk = false
         withContext(dispatcherIO) {
-            isOk = DB.deleteDeal(id)
+            isOk = db.deleteDeal(id)
         }
-        if (isOk) notifyToDoListChanged()
         return isOk
-    }
-
-    fun filterDeals() {
-        notifyToDoListChanged()
-    }
-
-    fun registerOnChangeToDoList(callback: OnChangeToDoListCallback) {
-        callbacks.add(callback)
-        callback.invoke(_deals)
-    }
-
-    fun unregisterOnChangeToDoList(callback: OnChangeToDoListCallback) {
-        callbacks.remove(callback)
-    }
-
-    private fun notifyToDoListChanged() {
-        callbacks.forEach { it.invoke(_deals) }
     }
 }

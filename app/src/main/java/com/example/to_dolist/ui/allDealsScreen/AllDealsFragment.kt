@@ -53,13 +53,21 @@ class AllDealsFragment : Fragment() {
 
 
         viewModel.deals.observe(viewLifecycleOwner) { deals ->
-            adapter.submitList(deals)
+            viewModel.isDoneShowed.value?.let { isDoneShowed ->
+                adapter.filterAndSubmitList(deals, isDoneShowed)
+            }
             /** туть!!! */ startPostponedEnterTransition() /** туть!!! */
         }
 
         viewModel.isDoneShowed.observe(viewLifecycleOwner) { isDoneShowed ->
-            if (isDoneShowed) binding.showAllDeals.setImageResource(R.drawable.baseline_visibility_off_24)
-            else binding.showAllDeals.setImageResource(R.drawable.baseline_visibility_24)
+            viewModel.deals.value?.let { deals ->
+                adapter.filterAndSubmitList(deals, isDoneShowed)
+            }
+            if (isDoneShowed) {
+                binding.showAllDeals.setImageResource(R.drawable.baseline_visibility_off_24)
+            } else {
+                binding.showAllDeals.setImageResource(R.drawable.baseline_visibility_24)
+            }
         }
 
         viewModel.doneCount.observe(viewLifecycleOwner) { count ->
@@ -195,13 +203,10 @@ class AllDealsFragment : Fragment() {
         }
 
         override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-            val index = viewHolder.adapterPosition
-            val item = viewModel.deals.value?.get(index)
-            if (item != null) {
-                when (direction) {
-                    START -> viewModel.onDelete(item)
-                    END -> viewModel.onDone(item)
-                }
+            val item = (viewHolder.itemView.tag as AllDealsAdapter.ItemTag).item
+            when (direction) {
+                START -> viewModel.onDelete(item)
+                END -> viewModel.onDone(item)
             }
         }
 

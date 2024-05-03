@@ -12,6 +12,11 @@ import com.example.to_dolist.R
 import com.example.to_dolist.data.ToDoItem
 import com.example.to_dolist.databinding.ListItemToDoBinding
 import com.example.to_dolist.util.format
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 interface ToDoListClickListener {
     fun onDone(toDoItem: ToDoItem)
@@ -26,6 +31,21 @@ class AllDealsAdapter(
     private val clickListener: ToDoListClickListener
 ) : ListAdapter<ToDoItem, AllDealsAdapter.DealViewHolder>(ToDoItemCallback()),
     View.OnClickListener {
+
+    fun filterAndSubmitList(list: List<ToDoItem>, isDoneShowed: Boolean) {
+        // todo что за хуйня?
+        CoroutineScope(SupervisorJob() + Dispatchers.Default).launch {
+            val newList = if (isDoneShowed) {
+                list.sortedBy { it.deadline }
+            } else {
+                list.filter { !it.isDone }.sortedBy { it.deadline }
+            }
+            withContext(Dispatchers.Main) {
+
+                submitList(newList)
+            }
+        }
+    }
 
     override fun onClick(view: View) {
         val tag = view.tag as ItemTag
